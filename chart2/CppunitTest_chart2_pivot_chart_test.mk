@@ -71,7 +71,6 @@ $(eval $(call gb_CppunitTest_use_components,chart2_pivot_chart_test,\
     chart2/source/chartcore \
     comphelper/util/comphelp \
     configmgr/source/configmgr \
-    dbaccess/util/dba \
     embeddedobj/util/embobj \
     eventattacher/source/evtatt \
     filter/source/config/cache/filterconfig1 \

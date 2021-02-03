@@ -219,7 +219,6 @@ $(eval $(call gb_Rdb_add_components,services,\
 
 $(eval $(call gb_Rdb_add_components,services,\
 	extensions/source/bibliography/bib \
-	dbaccess/util/dba \
 ))
 
 ifneq (,$(filter DBCONNECTIVITY,$(BUILD_TYPE)))
@@ -252,13 +251,7 @@ $(eval $(call gb_Rdb_add_components,services,\
 	connectivity/source/drivers/mysql_jdbc/mysql_jdbc \
 	connectivity/source/manager/sdbc2 \
 	connectivity/source/drivers/writer/writer \
-	dbaccess/source/filter/xml/dbaxml \
-	dbaccess/util/dbu \
-	dbaccess/util/sdbt \
 	forms/util/frm \
-	reportdesign/util/rpt \
-	reportdesign/util/rptui \
-	reportdesign/util/rptxml \
 	shell/source/backends/localebe/localebe1 \
 	$(if $(filter-out ANDROID iOS,$(OS)),\
 		connectivity/source/drivers/odbc/odbc \

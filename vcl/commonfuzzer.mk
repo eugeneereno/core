@@ -51,7 +51,6 @@ fuzzer_core_libraries = \
     configmgr \
     cppcanvas \
     ctl \
-    dba \
     dbtools \
     deployment \
     deploymentmisc \

@@ -234,7 +234,6 @@ $(eval $(call gb_Helper_register_executables_for_install,UREBIN,ure,\
 $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,base, \
 	abp \
 	dbp \
-	dbu \
 ))
 
 $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,calc, \
@@ -330,7 +329,6 @@ $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,ooo, \
 	configmgr \
 	ctl \
 	cui \
-	dba \
 	dbahsql \
 	$(call gb_Helper_optional,DBCONNECTIVITY, \
 		dbase \
@@ -487,9 +485,6 @@ $(eval $(call gb_Helper_register_libraries_for_install,PLAINLIBS_OOO,python, \
 ))
 
 $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,reportbuilder, \
-	rpt \
-	rptui \
-	rptxml \
 ))
 
 $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,writer, \
@@ -1084,7 +1079,6 @@ $(eval $(call gb_Helper_register_mos,\
 	chart \
 	cnr \
 	cui \
-	dba \
 	dkt \
 	editeng \
 	flt \
@@ -1094,7 +1088,6 @@ $(eval $(call gb_Helper_register_mos,\
 	fwk \
 	oox \
 	pcr \
-	rpt \
 	$(call gb_Helper_optional,SCRIPTING,sb) \
 	sca \
 	scc \
@@ -1115,7 +1108,6 @@ $(eval $(call gb_Helper_register_mos,\
 # UI configuration
 $(eval $(call gb_Helper_register_uiconfigs,\
 	cui \
-	$(call gb_Helper_optional,DBCONNECTIVITY,dbaccess) \
 	desktop \
 	editeng \
 	filter \

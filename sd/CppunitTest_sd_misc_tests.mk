@@ -82,7 +82,6 @@ $(eval $(call gb_CppunitTest_use_components,sd_misc_tests,\
     chart2/source/controller/chartcontroller \
     comphelper/util/comphelp \
     configmgr/source/configmgr \
-    dbaccess/util/dba \
     desktop/source/deployment/deployment \
     embeddedobj/util/embobj \
     filter/source/config/cache/filterconfig1 \

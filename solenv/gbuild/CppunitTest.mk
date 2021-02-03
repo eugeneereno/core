@@ -337,7 +337,6 @@ $(filter-out \
 	    scripting/source/basprov/basprov \
 	    scripting/util/scriptframe) \
 	$(if $(filter DBCONNECTIVITY,$(BUILD_TYPE)),, \
-	    dbaccess/util/dba \
 		forms/util/frm),$(1))
 endef
 
