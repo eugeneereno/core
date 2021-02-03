@@ -793,10 +793,6 @@ $(eval $(call gb_Helper_register_packages_for_install,calc,\
 	sc_res_xml \
 ))
 
-$(eval $(call gb_Helper_register_packages_for_install,libreofficekit,\
-	$(if $(filter LINUX %BSD SOLARIS, $(OS)),libreofficekit_selectionhandles) \
-))
-
 $(eval $(call gb_Helper_register_packages_for_install,ure,\
 	instsetoo_native_setup_ure \
 	ure_install \
