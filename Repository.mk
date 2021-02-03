@@ -165,12 +165,6 @@ $(eval $(call gb_Helper_register_executables_for_install,OOO,base, \
 	) \
 ))
 
-$(eval $(call gb_Helper_register_executables_for_install,OOO,calc_brand, \
-	$(if $(filter WNT,$(OS)), \
-		scalc \
-	) \
-))
-
 $(eval $(call gb_Helper_register_executables_for_install,OOO,draw_brand, \
 	$(if $(filter WNT,$(OS)), \
 		sdraw \
@@ -419,7 +413,6 @@ $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,ooo, \
 	svt \
 	svx \
 	svxcore \
-	sw \
 	syssh \
 	textconversiondlgs \
 	textfd \
@@ -502,9 +495,7 @@ $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,reportbuilder, \
 $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,writer, \
 	hwp \
 	$(if $(ENABLE_LWP),lwpft) \
-	msword \
 	swd \
-	swui \
 	t602filter \
 	$(call gb_Helper_optional,SCRIPTING,vbaswobj) \
 	wpftwriter \
@@ -1114,7 +1105,6 @@ $(eval $(call gb_Helper_register_mos,\
 	svl \
 	svt \
 	svx \
-	sw \
 	uui \
 	vcl \
 	wiz \

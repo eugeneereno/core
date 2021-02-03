@@ -38,7 +38,6 @@ $(eval $(call gb_CppunitTest_use_libraries,chart2_trendcalculators, \
     sax \
     sb \
     sc \
-    sw \
     sd \
     sfx \
     sot \
@@ -54,7 +53,6 @@ $(eval $(call gb_CppunitTest_use_libraries,chart2_trendcalculators, \
     utl \
     vbahelper \
     xo \
-    sw \
 ))
 
 $(eval $(call gb_CppunitTest_set_include,chart2_trendcalculators,\
@@ -89,17 +87,9 @@ $(eval $(call gb_CppunitTest_use_components,chart2_trendcalculators,\
     package/source/xstor/xstor \
     package/util/package2 \
     sax/source/expatwrap/expwrap \
-    sc/util/sc \
-    sc/util/scd \
-    sc/util/scfilt \
-    sw/util/sw \
-    sw/util/swd \
-    sw/util/msword \
     sd/util/sd \
     sd/util/sdfilt \
     sd/util/sdd \
-    $(call gb_Helper_optional,SCRIPTING, \
-	    sc/util/vbaobj) \
     scaddins/source/analysis/analysis \
     scaddins/source/datefunc/date \
     scripting/source/basprov/basprov \

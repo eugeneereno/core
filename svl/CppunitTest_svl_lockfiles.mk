@@ -36,7 +36,6 @@ $(eval $(call gb_CppunitTest_use_libraries,svl_lockfiles, \
     sal \
     svl \
     svt \
-    sw \
     test \
     unotest \
     utl \

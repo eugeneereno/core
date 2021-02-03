@@ -42,6 +42,7 @@ $(eval $(call gb_Module_add_moduledirs,libreoffice,\
 	cppuhelper \
 	cpputools \
 	cui \
+	dbaccess \
 	desktop \
 	$(call gb_Helper_optional,DICTIONARIES,dictionaries) \
 	drawinglayer \
@@ -179,9 +180,8 @@ ifeq (,$(filter-out build check unitcheck slowcheck screenshot subsequentcheck u
 $(eval $(call repositorymodule_serialize,\
 	scfilt \
 	$(call gb_Helper_optional,SCRIPTING,vbaobj) \
-	sc msword \
-	$(call gb_Helper_optional,DESKTOP,swui) \
-	sw sd \
+	sc \
+	sd \
 	$(call gb_Helper_optional,DBCONNECTIVITY,dbu) \
 	writerfilter cui chartcontroller chartcore oox \
 	$(if $(MERGELIBS), merged, \

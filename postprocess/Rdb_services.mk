@@ -103,9 +103,6 @@ $(eval $(call gb_Rdb_add_components,services,\
 	    lotuswordpro/util/lwpfilter \
 	) \
 	oox/util/oox \
-	sc/util/sc \
-	sc/util/scd \
-	sc/util/scfilt \
 	scaddins/source/analysis/analysis \
 	scaddins/source/datefunc/date \
 	scaddins/source/pricing/pricing \
@@ -119,9 +116,6 @@ $(eval $(call gb_Rdb_add_components,services,\
 	starmath/util/smd \
 	svx/util/svx \
 	svx/util/textconversiondlgs \
-	sw/util/msword \
-	sw/util/sw \
-	sw/util/swd \
 	ucb/source/sorter/srtrs1 \
 	ucb/source/cacher/cached1 \
 	$(if $(ENABLE_LIBCMIS),ucb/source/ucp/cmis/ucpcmis1) \
@@ -180,14 +174,12 @@ $(eval $(call gb_Rdb_add_components,services,\
 	) \
 	$(call gb_Helper_optional,SCRIPTING, \
 		basctl/util/basctl \
-		sc/util/vbaobj \
 		scripting/source/basprov/basprov \
 		scripting/source/dlgprov/dlgprov \
 		scripting/source/protocolhandler/protocolhandler \
 		scripting/source/stringresource/stringresource \
 		scripting/source/vbaevents/vbaevents \
 		scripting/util/scriptframe \
-		sw/util/vbaswobj \
 		vbahelper/util/msforms \
 		$(if $(DISABLE_PYTHON),, \
 			scripting/source/pyprov/mailmerge \

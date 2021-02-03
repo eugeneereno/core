@@ -10,8 +10,6 @@
 $(eval $(call gb_Pagein_Pagein,writer))
 
 $(eval $(call gb_Pagein_add_objects,writer,\
-    sw \
-    swui \
     svx \
     svxcore \
 ))
