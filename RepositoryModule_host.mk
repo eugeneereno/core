@@ -42,7 +42,6 @@ $(eval $(call gb_Module_add_moduledirs,libreoffice,\
 	cppuhelper \
 	cpputools \
 	cui \
-	dbaccess \
 	desktop \
 	$(call gb_Helper_optional,DICTIONARIES,dictionaries) \
 	drawinglayer \
