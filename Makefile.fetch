@@ -11,12 +11,12 @@ fetch_LOGFILE := $(TARFILE_LOCATION)/fetch.log
 
 ifneq (,$(WGET))
 define fetch_Download__wget_command
-&& bash -c '$(WGET) --progress=dot:mega -Q 0 -P "." -l 0 -nd -nH -N --no-use-server-timestamps $1/$2 2>&1 | tee -a $(fetch_LOGFILE) && [ $$PIPESTATUS -eq 0 ]'
+&& bash -c '$(WGET) --progress=dot:mega -Q 0 -P "." -l 0 -nd -nH -N --no-use-server-timestamps $1/$2 2>&1 | [ $$PIPESTATUS -eq 0 ]'
 endef
 
 else
 define fetch_Download__wget_command
-&& echo fetching $2 && bash -c '$(CURL) -L -O $1/$2 2>&1 | tee -a $(fetch_LOGFILE) && [ $$PIPESTATUS -eq 0 ]'
+&& echo fetching $2 && bash -c '$(CURL) -L -O $1/$2 2>&1 | [ $$PIPESTATUS -eq 0 ]'
 endef
 
 endif
@@ -98,7 +98,6 @@ download: $(WORKDIR)/download
 
 $(WORKDIR)/download: $(BUILDDIR)/config_$(gb_Side).mk $(SRCDIR)/download.lst $(SRCDIR)/Makefile.fetch
 	-@mkdir -p $(TARFILE_LOCATION)/tmp
-	@date >> $(fetch_LOGFILE)
 	$(foreach item, \
 		$(call fetch_Optional,ABW,ABW_TARBALL) \
 		$(call fetch_Optional,APACHE_COMMONS,APACHE_COMMONS_LOGGING_TARBALL) \
