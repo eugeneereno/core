@@ -100,7 +100,6 @@ $(eval $(call gb_Module_add_moduledirs,libreoffice,\
 	sal \
 	salhelper \
 	sax \
-	sc \
 	scaddins \
 	sccomp \
 	$(call gb_Helper_optional,DESKTOP,scp2) \
