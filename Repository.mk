@@ -248,7 +248,6 @@ $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,calc, \
 	$(call gb_Helper_optional,DBCONNECTIVITY,calc) \
 	date \
 	pricing \
-	sc \
 	scd \
 	scfilt \
 	scui \
@@ -461,9 +460,6 @@ $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,ooo, \
 		wininetbe1 \
 	) \
 	$(if $(filter $(OS),MACOSX), \
-		$(if $(ENABLE_MACOSX_SANDBOX),, \
-			AppleRemote \
-		) \
 		fps_aqua \
 		vclplug_osx \
 	) \
@@ -1109,7 +1105,6 @@ $(eval $(call gb_Helper_register_mos,\
 	pcr \
 	rpt \
 	$(call gb_Helper_optional,SCRIPTING,sb) \
-	sc \
 	sca \
 	scc \
 	sd \
