@@ -21,7 +21,6 @@ $(eval $(call gb_Module_add_targets,libreoffice,\
 endif
 
 $(eval $(call gb_Module_add_moduledirs,libreoffice,\
-	accessibility \
 	animations \
 	$(call gb_Helper_optional,AVMEDIA,avmedia) \
 	basctl \
