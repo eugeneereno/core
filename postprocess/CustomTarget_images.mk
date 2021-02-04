@@ -70,7 +70,6 @@ $(packimages_DIR)/sourceimagelist.ilst : \
 		$(SRCDIR)/avmedia/inc/bitmaps.hlst \
 		$(SRCDIR)/connectivity/inc/bitmaps.hlst \
 		$(SRCDIR)/cui/inc/bitmaps.hlst \
-		$(SRCDIR)/chart2/inc/bitmaps.hlst \
 		$(SRCDIR)/desktop/inc/bitmaps.hlst \
 		$(SRCDIR)/extensions/inc/bitmaps.hlst \
 		$(SRCDIR)/formula/inc/bitmaps.hlst \

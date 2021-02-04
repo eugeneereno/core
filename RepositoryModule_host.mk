@@ -27,7 +27,6 @@ $(eval $(call gb_Module_add_moduledirs,libreoffice,\
 	binaryurp \
 	bridges \
 	canvas \
-	chart2 \
 	cli_ure \
 	$(call gb_Helper_optional,DESKTOP,codemaker) \
 	comphelper \
