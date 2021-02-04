@@ -23,7 +23,6 @@ endif
 $(eval $(call gb_Module_add_moduledirs,libreoffice,\
 	animations \
 	$(call gb_Helper_optional,AVMEDIA,avmedia) \
-	basctl \
 	basegfx \
 	bean \
 	binaryurp \
