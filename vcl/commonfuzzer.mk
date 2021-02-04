@@ -67,7 +67,6 @@ fuzzer_core_libraries = \
     msfilter \
     package2 \
     sax \
-    sb \
     spell \
     sfx \
     sofficeapp \

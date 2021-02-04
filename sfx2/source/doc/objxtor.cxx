@@ -37,7 +37,7 @@
 #include <vcl/svapp.hxx>
 #include <vcl/window.hxx>
 #include <svl/eitem.hxx>
-#include <basic/sbstar.hxx>
+
 #include <svl/stritem.hxx>
 #include <unotools/configmgr.hxx>
 #include <unotools/eventcfg.hxx>
@@ -71,7 +71,7 @@
 #include <objshimp.hxx>
 #include <sfx2/strings.hrc>
 #include <sfx2/sfxsids.hrc>
-#include <basic/basmgr.hxx>
+
 #include <sfx2/QuerySaveDocument.hxx>
 #include <appbaslib.hxx>
 #include <sfx2/sfxbasemodel.hxx>
@@ -80,15 +80,12 @@
 #include <sfx2/notebookbar/SfxNotebookBar.hxx>
 #include <sfx2/infobar.hxx>
 
-#include <basic/basicmanagerrepository.hxx>
 
 using namespace ::com::sun::star;
 using namespace ::com::sun::star::uno;
 using namespace ::com::sun::star::script;
 using namespace ::com::sun::star::frame;
 using namespace ::com::sun::star::document;
-
-using ::basic::BasicManagerRepository;
 
 namespace {
 
@@ -165,8 +162,6 @@ void SAL_CALL SfxModelListener_Impl::disposing( const css::lang::EventObject& _r
         VBAConstantNameMap::iterator aIt = s_aRegisteredVBAConstants.find( _rEvent.Source.get() );
         if ( aIt != s_aRegisteredVBAConstants.end() )
         {
-            if ( BasicManager* pAppMgr = SfxApplication::GetBasicManager() )
-                pAppMgr->SetGlobalUNOConstant( aIt->second, Any( Reference< XInterface >() ) );
             s_aRegisteredVBAConstants.erase( aIt );
         }
     }
@@ -294,9 +289,6 @@ SfxObjectShell::~SfxObjectShell()
     SfxApplication *pSfxApp = SfxGetpApp();
     if ( USHRT_MAX != pImpl->nVisualDocumentNumber && pSfxApp )
         pSfxApp->ReleaseIndex(pImpl->nVisualDocumentNumber);
-
-    // Destroy Basic-Manager
-    pImpl->aBasicManager.reset(nullptr);
 
     if ( pSfxApp && pSfxApp->GetDdeService() )
         pSfxApp->RemoveDdeTopic( this );
@@ -594,61 +586,6 @@ bool SfxObjectShell::PrepareClose
     return true;
 }
 
-
-#if HAVE_FEATURE_SCRIPTING
-namespace
-{
-    BasicManager* lcl_getBasicManagerForDocument( const SfxObjectShell& _rDocument )
-    {
-        if ( !_rDocument.Get_Impl()->m_bNoBasicCapabilities )
-        {
-            if ( !_rDocument.Get_Impl()->bBasicInitialized )
-                const_cast< SfxObjectShell& >( _rDocument ).InitBasicManager_Impl();
-            return _rDocument.Get_Impl()->aBasicManager.get();
-        }
-
-        // assume we do not have Basic ourself, but we can refer to another
-        // document which does (by our model's XScriptInvocationContext::getScriptContainer).
-        // In this case, we return the BasicManager of this other document.
-
-        OSL_ENSURE( !Reference< XEmbeddedScripts >( _rDocument.GetModel(), UNO_QUERY ).is(),
-            "lcl_getBasicManagerForDocument: inconsistency: no Basic, but an XEmbeddedScripts?" );
-        Reference< XModel > xForeignDocument;
-        Reference< XScriptInvocationContext > xContext( _rDocument.GetModel(), UNO_QUERY );
-        if ( xContext.is() )
-        {
-            xForeignDocument.set( xContext->getScriptContainer(), UNO_QUERY );
-            OSL_ENSURE( xForeignDocument.is() && xForeignDocument != _rDocument.GetModel(),
-                "lcl_getBasicManagerForDocument: no Basic, but providing ourself as script container?" );
-        }
-
-        BasicManager* pBasMgr = nullptr;
-        if ( xForeignDocument.is() )
-            pBasMgr = ::basic::BasicManagerRepository::getDocumentBasicManager( xForeignDocument );
-
-        return pBasMgr;
-    }
-}
-#endif
-
-BasicManager* SfxObjectShell::GetBasicManager() const
-{
-    BasicManager* pBasMgr = nullptr;
-#if HAVE_FEATURE_SCRIPTING
-    try
-    {
-        pBasMgr = lcl_getBasicManagerForDocument( *this );
-        if ( !pBasMgr )
-            pBasMgr = SfxApplication::GetBasicManager();
-    }
-    catch (const css::ucb::ContentCreationException&)
-    {
-        TOOLS_WARN_EXCEPTION("sfx.doc", "");
-    }
-#endif
-    return pBasMgr;
-}
-
 bool SfxObjectShell::HasBasic() const
 {
 #if !HAVE_FEATURE_SCRIPTING
@@ -660,7 +597,7 @@ bool SfxObjectShell::HasBasic() const
     if ( !pImpl->bBasicInitialized )
         const_cast< SfxObjectShell* >( this )->InitBasicManager_Impl();
 
-    return pImpl->aBasicManager.isValid();
+    return false;
 #endif
 }
 
@@ -703,10 +640,6 @@ Reference< XLibraryContainer > SfxObjectShell::GetDialogContainer()
     {
         if ( !pImpl->m_bNoBasicCapabilities )
             return lcl_getOrCreateLibraryContainer( false, pImpl->xDialogLibraries, GetModel() );
-
-        BasicManager* pBasMgr = lcl_getBasicManagerForDocument( *this );
-        if ( pBasMgr )
-            return pBasMgr->GetDialogLibraryContainer().get();
     }
     catch (const css::ucb::ContentCreationException&)
     {
@@ -727,10 +660,6 @@ Reference< XLibraryContainer > SfxObjectShell::GetBasicContainer()
         {
             if ( !pImpl->m_bNoBasicCapabilities )
                 return lcl_getOrCreateLibraryContainer( true, pImpl->xBasicLibraries, GetModel() );
-
-            BasicManager* pBasMgr = lcl_getBasicManagerForDocument( *this );
-            if ( pBasMgr )
-                return pBasMgr->GetScriptLibraryContainer().get();
         }
         catch (const css::ucb::ContentCreationException&)
         {
@@ -740,16 +669,6 @@ Reference< XLibraryContainer > SfxObjectShell::GetBasicContainer()
     SAL_WARN("sfx.doc", "SfxObjectShell::GetBasicContainer: falling back to the application - is this really expected here?");
 #endif
     return SfxGetpApp()->GetBasicContainer();
-}
-
-StarBASIC* SfxObjectShell::GetBasic() const
-{
-#if !HAVE_FEATURE_SCRIPTING
-    return NULL;
-#else
-    BasicManager * pMan = GetBasicManager();
-    return pMan ? pMan->GetLib(0) : nullptr;
-#endif
 }
 
 void SfxObjectShell::InitBasicManager_Impl()
@@ -789,19 +708,6 @@ void SfxObjectShell::InitBasicManager_Impl()
         does not take ownership but stores only the raw pointer. Owner of all
         Basic managers is the global BasicManagerRepository instance.
      */
-#if HAVE_FEATURE_SCRIPTING
-    DBG_ASSERT( !pImpl->bBasicInitialized && !pImpl->aBasicManager.isValid(), "Local BasicManager already exists");
-    try
-    {
-        pImpl->aBasicManager.reset( BasicManagerRepository::getDocumentBasicManager( GetModel() ) );
-    }
-    catch (const css::ucb::ContentCreationException&)
-    {
-        TOOLS_WARN_EXCEPTION("sfx.doc", "");
-    }
-    DBG_ASSERT( pImpl->aBasicManager.isValid(), "SfxObjectShell::InitBasicManager_Impl: did not get a BasicManager!" );
-    pImpl->bBasicInitialized = true;
-#endif
 }
 
 
@@ -869,37 +775,6 @@ void SfxObjectShell::SetCurrentComponent( const Reference< XInterface >& _rxComp
     // /required/ for "_rxComponent == s_xCurrentComponent.get()".
     // In other words, it's still possible that we here do something which is not necessary,
     // but we should have filtered quite some unnecessary calls already.
-
-#if HAVE_FEATURE_SCRIPTING
-    BasicManager* pAppMgr = SfxApplication::GetBasicManager();
-    rTheCurrentComponent = _rxComponent;
-    if ( !pAppMgr )
-        return;
-
-    // set "ThisComponent" for Basic
-    pAppMgr->SetGlobalUNOConstant( "ThisComponent", Any( _rxComponent ) );
-
-    // set new current component for VBA compatibility
-    if ( _rxComponent.is() )
-    {
-        OUString aVBAConstName = lclGetVBAGlobalConstName( _rxComponent );
-        if ( !aVBAConstName.isEmpty() )
-        {
-            pAppMgr->SetGlobalUNOConstant( aVBAConstName, Any( _rxComponent ) );
-            s_aRegisteredVBAConstants[ _rxComponent.get() ] = aVBAConstName;
-        }
-    }
-    // no new component passed -> remove last registered VBA component
-    else if ( xOldCurrentComp.is() )
-    {
-        OUString aVBAConstName = lclGetVBAGlobalConstName( xOldCurrentComp );
-        if ( !aVBAConstName.isEmpty() )
-        {
-            pAppMgr->SetGlobalUNOConstant( aVBAConstName, Any( Reference< XInterface >() ) );
-            s_aRegisteredVBAConstants.erase( xOldCurrentComp.get() );
-        }
-    }
-#endif
 }
 
 Reference< XInterface > SfxObjectShell::GetCurrentComponent()

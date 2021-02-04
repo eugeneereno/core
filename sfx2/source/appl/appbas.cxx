@@ -28,7 +28,6 @@
 #include <svl/intitem.hxx>
 #include <svl/eitem.hxx>
 #include <svl/whiter.hxx>
-#include <basic/sbstar.hxx>
 
 #include <sfx2/frame.hxx>
 #include <sfx2/dinfdlg.hxx>
@@ -37,11 +36,10 @@
 #include <sfx2/request.hxx>
 #include <sfx2/sfxsids.hrc>
 #include <appdata.hxx>
-#include <basic/basmgr.hxx>
+
 #include <unotools/configmgr.hxx>
 #include <sorgitm.hxx>
 #include <appbaslib.hxx>
-#include <basic/basicmanagerrepository.hxx>
 
 #define SFX_TYPEMAP
 #include <sfxslots.hxx>
@@ -50,24 +48,9 @@ using namespace ::com::sun::star;
 using namespace ::com::sun::star::uno;
 using namespace ::com::sun::star::script;
 
-using ::basic::BasicManagerRepository;
-
 
 void SfxApplication::SaveBasicAndDialogContainer() const
 {
-    if ( pImpl->pBasicManager->isValid() )
-        pImpl->pBasicManager->storeAllLibraries();
-}
-
-BasicManager* SfxApplication::GetBasicManager()
-{
-#if !HAVE_FEATURE_SCRIPTING
-    return 0;
-#else
-    if (utl::ConfigManager::IsFuzzing())
-        return nullptr;
-    return BasicManagerRepository::getApplicationBasicManager();
-#endif
 }
 
 XLibraryContainer * SfxApplication::GetDialogContainer()
@@ -77,9 +60,6 @@ XLibraryContainer * SfxApplication::GetDialogContainer()
 #else
     if (utl::ConfigManager::IsFuzzing())
         return nullptr;
-    if ( !pImpl->pBasicManager->isValid() )
-        GetBasicManager();
-    return pImpl->pBasicManager->getLibraryContainer( SfxBasicManagerHolder::DIALOGS );
 #endif
 }
 
@@ -91,20 +71,8 @@ XLibraryContainer * SfxApplication::GetBasicContainer()
 #else
     if (utl::ConfigManager::IsFuzzing())
         return nullptr;
-    if ( !pImpl->pBasicManager->isValid() )
-        GetBasicManager();
-    return pImpl->pBasicManager->getLibraryContainer( SfxBasicManagerHolder::SCRIPTS );
-#endif
-}
 
-StarBASIC* SfxApplication::GetBasic()
-{
-#if !HAVE_FEATURE_SCRIPTING
-    return 0;
-#else
-    if (utl::ConfigManager::IsFuzzing())
-        return nullptr;
-    return GetBasicManager()->GetLib(0);
+    return nullptr;
 #endif
 }
 

@@ -44,7 +44,6 @@ $(eval $(call gb_CppunitTest_use_libraries,connectivity_ado, \
     ado \
     sal \
     salhelper \
-    sb \
     test \
     unotest \
     ucbhelper \

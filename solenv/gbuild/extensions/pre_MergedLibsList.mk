@@ -64,7 +64,6 @@ MERGE_LIBRARY_LIST := \
 	package2 \
 	passwordcontainer \
 	sax \
-	sb \
 	simplecanvas \
 	sfx \
 	sofficeapp \

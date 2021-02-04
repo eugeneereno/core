@@ -21,7 +21,7 @@
 
 #include <app.hrc>
 #include <avmedia/mediawindow.hxx>
-#include <basic/sbstar.hxx>
+
 #include <config_features.h>
 #include <sfx2/app.hxx>
 #include <sfx2/bindings.hxx>
@@ -219,7 +219,7 @@ void FuExecuteInteraction::DoExecute(SfxRequest&)
                 const OUString aModulName = aMacro.getToken(0, '.', nIdx);
 
                 // Currently the "Call" method only resolves modulename+macroname
-                mpDocSh->GetBasic()->Call(aModulName + "." + aMacroName);
+                // mpDocSh->GetBasic()->Call(aModulName + "." + aMacroName);
             }
         }
         break;

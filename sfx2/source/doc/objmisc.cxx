@@ -1319,11 +1319,7 @@ ErrCode SfxObjectShell::CallBasic( std::u16string_view rMacro,
             return ERRCODE_IO_ACCESSDENIED;
     }
 
-    BasicManager *pMgr = GetBasicManager();
-    if( pApp->GetName() == rBasic )
-        pMgr = SfxApplication::GetBasicManager();
-    ErrCode nRet = SfxApplication::CallBasic( OUString(rMacro), pMgr, pArgs, pRet );
-    return nRet;
+    return ERRCODE_IO_ACCESSDENIED;
 }
 
 bool SfxObjectShell::isScriptAccessAllowed( const Reference< XInterface >& _rxScriptContext )

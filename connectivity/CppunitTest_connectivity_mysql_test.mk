@@ -38,7 +38,6 @@ $(eval $(call gb_CppunitTest_use_ure,connectivity_mysql_test))
 $(eval $(call gb_CppunitTest_use_vcl,connectivity_mysql_test))
 
 $(eval $(call gb_CppunitTest_use_components,connectivity_mysql_test,\
-    basic/util/sb \
     comphelper/util/comphelp \
     configmgr/source/configmgr \
     connectivity/source/drivers/mysqlc/mysqlc \

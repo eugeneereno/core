@@ -35,74 +35,37 @@
 #include <unoctitm.hxx>
 #include <svl/svdde.hxx>
 
-#include <basic/basicmanagerrepository.hxx>
-#include <basic/basmgr.hxx>
-#include <basic/basrdll.hxx>
-
-using ::basic::BasicManagerRepository;
-using ::basic::BasicManagerCreationListener;
 using ::com::sun::star::uno::Reference;
 using ::com::sun::star::frame::XModel;
 using ::com::sun::star::uno::XInterface;
 
-static BasicDLL* pBasic = nullptr;
-
-class SfxBasicManagerCreationListener : public ::basic::BasicManagerCreationListener
+class SfxBasicManagerCreationListener
 {
-private:
-    SfxAppData_Impl& m_rAppData;
-
 public:
     explicit SfxBasicManagerCreationListener(SfxAppData_Impl& _rAppData)
-        : m_rAppData(_rAppData)
-    {
-    }
+    {}
 
     virtual ~SfxBasicManagerCreationListener();
-
-    virtual void onBasicManagerCreated( const Reference< XModel >& _rxForDocument, BasicManager& _rBasicManager ) override;
 };
 
 SfxBasicManagerCreationListener::~SfxBasicManagerCreationListener()
-{
-}
-
-void SfxBasicManagerCreationListener::onBasicManagerCreated( const Reference< XModel >& _rxForDocument, BasicManager& _rBasicManager )
-{
-    if ( _rxForDocument == nullptr )
-        m_rAppData.OnApplicationBasicManagerCreated( _rBasicManager );
-}
+{}
 
 SfxAppData_Impl::SfxAppData_Impl()
     : pPool(nullptr)
     , pProgress(nullptr)
     , nDocModalMode(0)
     , nRescheduleLocks(0)
-    , pBasicManager( new SfxBasicManagerHolder )
     , pBasMgrListener( new SfxBasicManagerCreationListener( *this ) )
     , pViewFrame( nullptr )
     , bDowning( true )
     , bInQuit( false )
 
-{
-    pBasic = new BasicDLL;
-
-#if HAVE_FEATURE_SCRIPTING
-    BasicManagerRepository::registerCreationListener( *pBasMgrListener );
-#endif
-}
+{}
 
 SfxAppData_Impl::~SfxAppData_Impl()
 {
     DeInitDDE();
-    pBasicManager.reset();
-
-#if HAVE_FEATURE_SCRIPTING
-    BasicManagerRepository::revokeCreationListener( *pBasMgrListener );
-    pBasMgrListener.reset();
-#endif
-
-    delete pBasic;
 }
 
 SfxDocumentTemplates* SfxAppData_Impl::GetDocumentTemplates()
@@ -112,20 +75,6 @@ SfxDocumentTemplates* SfxAppData_Impl::GetDocumentTemplates()
     else
         pTemplates->ReInitFromComponent();
     return pTemplates.get();
-}
-
-void SfxAppData_Impl::OnApplicationBasicManagerCreated( BasicManager& _rBasicManager )
-{
-#if !HAVE_FEATURE_SCRIPTING
-    (void) _rBasicManager;
-#else
-    pBasicManager->reset( &_rBasicManager );
-
-    // global constants, additionally to the ones already added by createApplicationBasicManager:
-    // ThisComponent
-    Reference< XInterface > xCurrentComponent = SfxObjectShell::GetCurrentComponent();
-    _rBasicManager.SetGlobalUNOConstant( "ThisComponent", makeAny( xCurrentComponent ) );
-#endif
 }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

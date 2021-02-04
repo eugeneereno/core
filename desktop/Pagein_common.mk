@@ -29,7 +29,6 @@ $(eval $(call gb_Pagein_add_objects,common,\
     basegfx \
     sot \
     xmlscript \
-    sb \
     stocservices \
     bootstrap \
     reg \

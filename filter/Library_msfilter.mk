@@ -34,7 +34,6 @@ $(eval $(call gb_Library_use_libraries,msfilter,\
 	editeng \
 	sfx \
 	xo \
-	sb \
 	salhelper \
 	svt \
 	tk \

@@ -23,7 +23,7 @@
 
 #include <sfx2/app.hxx>
 #include <sfx2/frame.hxx>
-#include <basic/sberrors.hxx>
+
 
 #include <svl/svdde.hxx>
 #include <unotools/configmgr.hxx>
@@ -31,7 +31,7 @@
 #include <comphelper/processfactory.hxx>
 #include <com/sun/star/uri/UriReferenceFactory.hpp>
 #include <com/sun/star/uri/XVndSunStarScriptUrl.hpp>
-#include <basic/basmgr.hxx>
+
 #include <vcl/svapp.hxx>
 #include <sfx2/sfxhelp.hxx>
 #include <sfx2/progress.hxx>
@@ -155,10 +155,6 @@ SfxApplication::SfxApplication()
 
 #if HAVE_FEATURE_DESKTOP
     pSfxHelp = new SfxHelp;
-#endif
-
-#if HAVE_FEATURE_SCRIPTING
-    StarBASIC::SetGlobalErrorHdl( LINK( this, SfxApplication, GlobalBasicErrorHdl_Impl ) );
 #endif
 
     SAL_INFO( "sfx.appl", "} initialize DDE" );
@@ -381,30 +377,6 @@ extern "C" void basicide_macro_organizer(void*, sal_Int16);
 
 #endif
 
-IMPL_STATIC_LINK( SfxApplication, GlobalBasicErrorHdl_Impl, StarBASIC*, pStarBasic, bool )
-{
-#if !HAVE_FEATURE_SCRIPTING
-    (void) pStarBasic;
-    return false;
-#else
-
-#ifndef DISABLE_DYNLOADING
-    basicide_handle_basic_error pSymbol = reinterpret_cast<basicide_handle_basic_error>(sfx2::getBasctlFunction("basicide_handle_basic_error"));
-
-    // call basicide_handle_basic_error in basctl
-    bool bRet = pSymbol( pStarBasic );
-
-#else
-
-    bool bRet = basicide_handle_basic_error( pStarBasic );
-
-#endif
-
-    return bRet;
-
-#endif
-}
-
 bool SfxApplication::IsXScriptURL( const OUString& rScriptURL )
 {
     bool result = false;
@@ -486,20 +458,6 @@ void SfxApplication::MacroOrganizer(weld::Window* pParent, sal_Int16 nTabId)
 
 #endif
 
-#endif
-}
-
-ErrCode SfxApplication::CallBasic( const OUString& rCode, BasicManager* pMgr, SbxArray* pArgs, SbxValue* pRet )
-{
-#if !HAVE_FEATURE_SCRIPTING
-    (void) rCode;
-    (void) pMgr;
-    (void) pArgs;
-    (void) pRet;
-    return ERRCODE_BASIC_CANNOT_LOAD;
-#else
-    (void) ERRCODE_BASIC_CANNOT_LOAD; // So that the !HAVE_FEATURE_SCRIPTING case isn't broken again by IWYU
-    return pMgr->ExecuteMacro( rCode, pArgs, pRet);
 #endif
 }
 

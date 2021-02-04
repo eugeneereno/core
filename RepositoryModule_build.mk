@@ -58,7 +58,6 @@ $(eval $(call gb_Module_add_moduledirs,cross_toolset,\
 	xmlreader \
 	$(if $(WITH_GALLERY_BUILD), \
 		avmedia \
-		basic \
 		canvas \
 		configmgr \
 		connectivity \

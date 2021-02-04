@@ -2671,36 +2671,7 @@ void SfxViewFrame::AddDispatchMacroToBasic_Impl( const OUString& sMacro )
             aLocation = xUrl->getParameter( "location" );
         }
 
-        BasicManager* pBasMgr = nullptr;
-        if ( aLocation == "application" )
-        {
-            // application basic
-            pBasMgr = SfxApplication::GetBasicManager();
-        }
-        else if ( aLocation == "document" )
-        {
-            pBasMgr = GetObjectShell()->GetBasicManager();
-        }
-
         OUString aOUSource;
-        if ( pBasMgr)
-        {
-            StarBASIC* pBasic = pBasMgr->GetLib( aLibName );
-            if ( pBasic )
-            {
-                SbModule* pModule = pBasic->FindModule( aModuleName );
-                SbMethod* pMethod = pModule ? pModule->FindMethod(aMacroName, SbxClassType::Method) : nullptr;
-                if (pMethod)
-                {
-                    aOUSource = pModule->GetSource32();
-                    sal_uInt16 nStart, nEnd;
-                    pMethod->GetLineRange( nStart, nEnd );
-                    sal_uInt16 nlStart = nStart;
-                    sal_uInt16 nlEnd = nEnd;
-                    CutLines( aOUSource, nlStart-1, nlEnd-nlStart+1 );
-                }
-            }
-        }
 
         // open lib container and break operation if it couldn't be opened
         css::uno::Reference< css::script::XLibraryContainer > xLibCont;
@@ -2790,7 +2761,7 @@ void SfxViewFrame::AddDispatchMacroToBasic_Impl( const OUString& sMacro )
                 SfxDispatcher* pDispat = pViewFrame ? pViewFrame->GetDispatcher() : nullptr;
                 if ( pDispat )
                 {
-                    SfxMacroInfoItem aInfoItem( SID_BASICIDE_ARG_MACROINFO, pBasMgr, aLibName, aModuleName, OUString(), OUString() );
+                    SfxMacroInfoItem aInfoItem( SID_BASICIDE_ARG_MACROINFO, /* pBasMgr */nullptr, aLibName, aModuleName, OUString(), OUString() );
                     pDispat->ExecuteList(SID_BASICIDE_UPDATEMODULESOURCE,
                             SfxCallMode::SYNCHRON, { &aInfoItem });
                 }

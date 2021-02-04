@@ -83,7 +83,7 @@ protected:
     css::uno::Reference<css::frame::XDesktop2> mxDesktop;
 
 private:
-    std::unique_ptr<BasicDLL> mpDll;
+
 #if HAVE_GPGCONF_SOCKETDIR
     OString m_gpgconfCommandPrefix;
 #endif

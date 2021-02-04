@@ -44,7 +44,6 @@ $(eval $(call gb_Library_use_libraries,vbahelper,\
     cppuhelper \
     msfilter \
     sal \
-    sb \
     sfx \
     svl \
     svt \

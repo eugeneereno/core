@@ -178,7 +178,7 @@ uno::Reference< frame::XModel >
 getCurrentDoc( const OUString& sKey )
 {
     uno::Reference< frame::XModel > xModel;
-    SbxObject* pBasic = dynamic_cast< SbxObject* > ( SfxApplication::GetBasic() );
+    SbxObject* pBasic = nullptr;
     SbxObject* basicChosen =  pBasic ;
     if ( basicChosen == nullptr)
     {

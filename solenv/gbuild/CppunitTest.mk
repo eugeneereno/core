@@ -333,7 +333,6 @@ endef
 define gb_CppunitTest__filter_not_built_components
 $(filter-out \
 	$(if $(filter SCRIPTING,$(BUILD_TYPE)),, \
-		basic/util/sb \
 	    scripting/source/basprov/basprov \
 	    scripting/util/scriptframe) \
 	$(if $(filter DBCONNECTIVITY,$(BUILD_TYPE)),, \

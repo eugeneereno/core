@@ -111,7 +111,7 @@
 #include <sfx2/safemode.hxx>
 #include <svl/itemset.hxx>
 #include <svl/eitem.hxx>
-#include <basic/sbstar.hxx>
+
 #include <desktop/crashreport.hxx>
 #include <tools/urlobj.hxx>
 #include <tools/diagnose_ex.h>
@@ -1677,9 +1677,6 @@ int Desktop::doShutdown()
     {
         SolarMutexReleaser aReleaser;
         DeregisterServices();
-#if HAVE_FEATURE_SCRIPTING
-        StarBASIC::DetachAllDocBasicItems();
-#endif
     }
 
     // be sure that path/language options gets destroyed before

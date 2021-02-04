@@ -18,7 +18,7 @@
  */
 
 #include "basprov.hxx"
-#include "basscript.hxx"
+
 #include "baslibnode.hxx"
 #include <com/sun/star/frame/XModel.hpp>
 #include <com/sun/star/script/browse/BrowseNodeTypes.hpp>
@@ -220,10 +220,7 @@ namespace basprov
             Reference< XEmbeddedScripts > xDocumentScripts( xModel, UNO_QUERY );
             if ( xDocumentScripts.is() )
             {
-                m_pDocBasicManager = ::basic::BasicManagerRepository::getDocumentBasicManager( xModel );
                 m_xLibContainerDoc = xDocumentScripts->getBasicLibraries();
-                OSL_ENSURE( m_pDocBasicManager && m_xLibContainerDoc.is(),
-                    "BasicProviderImpl::initialize: invalid BasicManager, or invalid script container!" );
             }
             m_bIsAppScriptCtx = false;
         }
@@ -242,14 +239,6 @@ namespace basprov
                     "BasicProviderImpl::initialize: no scripting context!" );
                 */
             }
-        }
-
-        // TODO
-        if ( !m_pAppBasicManager )
-        {
-            m_pAppBasicManager = SfxApplication::GetBasicManager();
-            if (m_pAppBasicManager)
-                StartListening(*m_pAppBasicManager);
         }
 
         if ( !m_xLibContainerApp.is() )
@@ -321,35 +310,6 @@ namespace basprov
 
         if ( !aLibrary.isEmpty() && !aModule.isEmpty() && !aMethod.isEmpty() && !aLocation.isEmpty() )
         {
-
-            if ( pBasicMgr )
-            {
-                StarBASIC* pBasic = pBasicMgr->GetLib( aLibrary );
-                if ( !pBasic )
-                {
-                    sal_uInt16 nId = pBasicMgr->GetLibId( aLibrary );
-                    if ( nId != LIB_NOTFOUND )
-                    {
-                        pBasicMgr->LoadLib( nId );
-                        pBasic = pBasicMgr->GetLib( aLibrary );
-                    }
-                }
-                if ( pBasic )
-                {
-                    SbModule* pModule = pBasic->FindModule( aModule );
-                    if ( pModule )
-                    {
-                        SbMethod* pMethod = pModule->FindMethod( aMethod, SbxClassType::Method );
-                        if ( pMethod && !pMethod->IsHidden() )
-                        {
-                            if ( m_pDocBasicManager == pBasicMgr )
-                                xScript = new BasicScriptImpl( aDescription, pMethod, *m_pDocBasicManager, m_xInvocationContext );
-                            else
-                                xScript = new BasicScriptImpl( aDescription, pMethod );
-                        }
-                    }
-                }
-            }
         }
 
         if ( !xScript.is() )

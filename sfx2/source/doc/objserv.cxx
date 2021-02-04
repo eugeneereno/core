@@ -1148,9 +1148,6 @@ void SfxObjectShell::ExecFile_Impl(SfxRequest &rReq)
                 {
                     if ( !pNameItem )
                     {
-#if HAVE_FEATURE_SCRIPTING
-                        SbxBase::SetError( ERRCODE_BASIC_WRONG_ARGS );
-#endif
                         rReq.Ignore();
                         return;
                     }

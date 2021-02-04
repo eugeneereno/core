@@ -11,7 +11,6 @@
 
 #include <unotest/bootstrapfixturebase.hxx>
 #include <comphelper/processfactory.hxx>
-#include <basic/sbstar.hxx>
 
 using namespace ::com::sun::star;
 
@@ -30,6 +29,6 @@ void test::BootstrapFixtureBase::setUp()
     m_xSFactory.set(m_xFactory, uno::UNO_QUERY_THROW);
 }
 
-void test::BootstrapFixtureBase::tearDown() { StarBASIC::DetachAllDocBasicItems(); }
+void test::BootstrapFixtureBase::tearDown() {}
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

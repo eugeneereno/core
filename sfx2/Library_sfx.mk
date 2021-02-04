@@ -56,7 +56,6 @@ $(eval $(call gb_Library_use_libraries,sfx,\
     sal \
     salhelper \
     sax \
-    sb \
     sot \
     svl \
     svt \

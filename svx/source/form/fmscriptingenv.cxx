@@ -37,7 +37,6 @@
 #include <o3tl/sorted_vector.hxx>
 #include <sfx2/objsh.hxx>
 #include <sfx2/app.hxx>
-#include <basic/basmgr.hxx>
 
 #include <memory>
 #include <utility>
@@ -880,11 +879,7 @@ namespace svxform
 
             if ( sMacroLocation.isEmpty() )
             {
-                // legacy format: use the app-wide Basic, if it has a respective method, otherwise fall back to the doc's Basic
-                if ( SfxApplication::GetBasicManager()->HasMacro( sScriptCode ) )
-                    sMacroLocation = "application";
-                else
-                    sMacroLocation = "document";
+                sMacroLocation = "document";
             }
 
             OUString sScriptURI = "vnd.sun.star.script:" +

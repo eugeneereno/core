@@ -669,16 +669,6 @@ void SfxApplication::MiscExec_Impl( SfxRequest& rReq )
             break;
         }
 
-#if HAVE_FEATURE_SCRIPTING
-        case SID_BASICSTOP:
-            StarBASIC::Stop();
-            break;
-
-        case SID_BASICBREAK :
-            BasicDLL::BasicBreak();
-            break;
-#endif
-
         case SID_ZOOM_50_PERCENT:
         case SID_ZOOM_75_PERCENT:
         case SID_ZOOM_100_PERCENT:
@@ -1078,13 +1068,6 @@ void SfxApplication::MiscState_Impl(SfxItemSet &rSet)
                         rSet.DisableItem(nWhich);
                     break;
                 }
-
-#if HAVE_FEATURE_SCRIPTING
-                case SID_BASICSTOP:
-                    if ( !StarBASIC::IsRunning() )
-                        rSet.DisableItem(nWhich);
-                    break;
-#endif
 
                 case SID_HELPTIPS:
                 {
@@ -1555,10 +1538,7 @@ void SfxApplication::OfaExec_Impl( SfxRequest& rReq )
             {
                 bRet = true /*!!!SfxIniManager::CheckPLZ( aPLZ )*/;
             }
-#if HAVE_FEATURE_SCRIPTING
-            else
-                SbxBase::SetError( ERRCODE_BASIC_WRONG_ARGS );
-#endif
+
             rReq.SetReturnValue( SfxBoolItem( rReq.GetSlot(), bRet ) );
         }
         break;

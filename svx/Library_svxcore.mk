@@ -51,7 +51,6 @@ $(eval $(call gb_Library_add_defs,svxcore,\
 $(eval $(call gb_Library_use_libraries,svxcore,\
     $(call gb_Helper_optional,AVMEDIA,avmedia) \
     basegfx \
-    sb \
     comphelper \
     cppuhelper \
     cppu \

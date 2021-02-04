@@ -2864,7 +2864,7 @@ if test -z "$enable_scripting"; then
     # Disable scripting for iOS unless specifically overridden
     # with --enable-scripting.
     if test $_os != iOS; then
-        enable_scripting=yes
+        enable_scripting=no
     fi
 fi
 

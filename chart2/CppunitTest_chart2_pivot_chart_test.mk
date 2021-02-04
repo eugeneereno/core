@@ -36,7 +36,6 @@ $(eval $(call gb_CppunitTest_use_libraries,chart2_pivot_chart_test, \
     sal \
     salhelper \
     sax \
-    sb \
     sc \
     sd \
     sfx \
@@ -65,7 +64,6 @@ $(eval $(call gb_CppunitTest_use_ure,chart2_pivot_chart_test))
 $(eval $(call gb_CppunitTest_use_vcl,chart2_pivot_chart_test))
 
 $(eval $(call gb_CppunitTest_use_components,chart2_pivot_chart_test,\
-    basic/util/sb \
     animations/source/animcore/animcore \
     chart2/source/controller/chartcontroller \
     chart2/source/chartcore \

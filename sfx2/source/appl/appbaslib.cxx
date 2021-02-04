@@ -23,7 +23,6 @@
 
 #include <sfx2/app.hxx>
 
-#include <basic/basmgr.hxx>
 #include <tools/diagnose_ex.h>
 #include <com/sun/star/uno/XComponentContext.hpp>
 
@@ -33,57 +32,21 @@ using namespace ::com::sun::star::script;
 using namespace ::com::sun::star::embed;
 
 
-SfxBasicManagerHolder::SfxBasicManagerHolder()
-    :mpBasicManager( nullptr )
-{
-}
+SfxBasicManagerHolder::SfxBasicManagerHolder() {}
 
 void SfxBasicManagerHolder::Notify(SfxBroadcaster& rBC, SfxHint const& rHint)
 {
-    if (!mpBasicManager || &rBC != mpBasicManager)
-        return;
+    (void) rBC;
     if (SfxHintId::Dying == rHint.GetId())
     {
-        mpBasicManager = nullptr;
         mxBasicContainer.clear();
         mxDialogContainer.clear();
     }
 }
 
-void SfxBasicManagerHolder::reset( BasicManager* _pBasicManager )
-{
-    impl_releaseContainers();
-
-#if !HAVE_FEATURE_SCRIPTING
-    (void) _pBasicManager;
-#else
-    // Note: we do not delete the old BasicManager. BasicManager instances are
-    // nowadays obtained from the BasicManagerRepository, and the ownership is with
-    // the repository.
-    // @see basic::BasicManagerRepository::getApplicationBasicManager
-    // @see basic::BasicManagerRepository::getDocumentBasicManager
-    mpBasicManager = _pBasicManager;
-
-    if ( !mpBasicManager )
-        return;
-
-    StartListening(*mpBasicManager);
-    try
-    {
-        mxBasicContainer.set( mpBasicManager->GetScriptLibraryContainer(), UNO_QUERY_THROW );
-        mxDialogContainer.set( mpBasicManager->GetDialogLibraryContainer(), UNO_QUERY_THROW  );
-    }
-    catch( const Exception& )
-    {
-        DBG_UNHANDLED_EXCEPTION("sfx.appl");
-    }
-#endif
-}
-
 void SfxBasicManagerHolder::storeAllLibraries()
 {
 #if HAVE_FEATURE_SCRIPTING
-    OSL_PRECOND( isValid(), "SfxBasicManagerHolder::storeAllLibraries: not initialized!" );
     try
     {
         if ( mxBasicContainer.is() )
@@ -122,8 +85,6 @@ void SfxBasicManagerHolder::storeLibrariesToStorage( const Reference< XStorage >
 #if !HAVE_FEATURE_SCRIPTING
     (void) _rxStorage;
 #else
-    OSL_PRECOND( isValid(), "SfxBasicManagerHolder::storeLibrariesToStorage: not initialized!" );
-
     if ( mxBasicContainer.is() )
         mxBasicContainer->storeLibrariesToStorage( _rxStorage );
     if ( mxDialogContainer.is() )
@@ -133,8 +94,6 @@ void SfxBasicManagerHolder::storeLibrariesToStorage( const Reference< XStorage >
 
 XLibraryContainer * SfxBasicManagerHolder::getLibraryContainer( ContainerType _eType )
 {
-    OSL_PRECOND( isValid(), "SfxBasicManagerHolder::getLibraryContainer: not initialized!" );
-
     switch ( _eType )
     {
     case SCRIPTS:   return mxBasicContainer.get();
@@ -154,9 +113,6 @@ bool SfxBasicManagerHolder::LegacyPsswdBinaryLimitExceeded( std::vector< OUStrin
 {
 #if !HAVE_FEATURE_SCRIPTING
     (void) sModules;
-#else
-    if ( mpBasicManager )
-        return mpBasicManager->LegacyPsswdBinaryLimitExceeded( sModules );
 #endif
     return true;
 }
@@ -167,7 +123,6 @@ com_sun_star_comp_sfx2_ApplicationDialogLibraryContainer_get_implementation(
     css::uno::XComponentContext *,
     css::uno::Sequence<css::uno::Any> const &)
 {
-    SfxApplication::GetBasicManager();
     css::uno::XInterface* pRet = SfxGetpApp()->GetDialogContainer();
     pRet->acquire();
     return pRet;
@@ -179,7 +134,6 @@ com_sun_star_comp_sfx2_ApplicationScriptLibraryContainer_get_implementation(
     css::uno::XComponentContext *,
     css::uno::Sequence<css::uno::Any> const &)
 {
-    SfxApplication::GetBasicManager();
     css::uno::XInterface* pRet = SfxGetpApp()->GetBasicContainer();
     pRet->acquire();
     return pRet;

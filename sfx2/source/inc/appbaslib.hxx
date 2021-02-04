@@ -26,15 +26,12 @@
 #include <com/sun/star/embed/XStorage.hpp>
 #include <vector>
 
-class BasicManager;
-
 /** helper class which holds and manipulates a BasicManager
 */
 class SfxBasicManagerHolder
     : public SfxListener
 {
 private:
-    BasicManager*   mpBasicManager;
     css::uno::Reference< css::script::XStorageBasedLibraryContainer >
                     mxBasicContainer;
     css::uno::Reference< css::script::XStorageBasedLibraryContainer >
@@ -47,20 +44,6 @@ public:
     {
         SCRIPTS, DIALOGS
     };
-
-    /** returns <TRUE/> if and only if the instance is currently bound to a non-<NULL/>
-        BasicManager.
-    */
-    bool    isValid() const { return mpBasicManager != nullptr; }
-
-    /** returns the BasicManager which this instance is currently bound to
-    */
-    BasicManager*
-            get() const { return mpBasicManager; }
-
-    /** binds the instance to the given BasicManager
-    */
-    void    reset( BasicManager* _pBasicManager );
 
     css::script::XLibraryContainer *
             getLibraryContainer( ContainerType _eType );

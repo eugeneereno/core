@@ -32,7 +32,6 @@ $(eval $(call gb_CppunitTest_use_libraries,sccomp_swarmsolvertest,\
 	sal \
 	salhelper \
 	sax \
-	sb \
 	sc \
 	scqahelper \
 	sfx \

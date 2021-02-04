@@ -25,7 +25,6 @@ $(eval $(call gb_Module_add_moduledirs,libreoffice,\
 	$(call gb_Helper_optional,AVMEDIA,avmedia) \
 	basctl \
 	basegfx \
-	basic \
 	bean \
 	binaryurp \
 	bridges \

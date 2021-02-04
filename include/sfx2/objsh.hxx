@@ -47,12 +47,12 @@
 namespace weld {class Button; }
 class SbxValue;
 class SbxArray;
-class BasicManager;
+
 class SfxMedium;
 class SfxObjectFactory;
 class SfxDocumentInfoDialog;
 class SfxStyleSheetBasePool;
-class StarBASIC;
+
 class Printer;
 class SvKeyValueIterator;
 class SfxBaseModel;
@@ -548,13 +548,12 @@ public:
     // Determine the position of the "Automatic" filter in the stylist
     void                        SetAutoStyleFilterIndex(sal_uInt16 nSet);
     sal_uInt16                  GetAutoStyleFilterIndex() const;
-    bool                        HasBasic() const;
-    BasicManager*               GetBasicManager() const;
+    bool HasBasic() const;
+
     css::uno::Reference< css::script::XLibraryContainer >
                                 GetBasicContainer();
     css::uno::Reference< css::script::XLibraryContainer >
                                 GetDialogContainer();
-    StarBASIC*                  GetBasic() const;
 
     virtual std::set<Color>     GetDocColors();
 

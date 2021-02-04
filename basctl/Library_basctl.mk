@@ -47,7 +47,6 @@ $(eval $(call gb_Library_use_libraries,basctl,\
 	fwk \
 	sal \
 	i18nlangtag \
-	sb \
 	sfx \
 	sot \
 	svl \

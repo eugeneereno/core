@@ -42,7 +42,6 @@ $(eval $(call gb_Library_set_precompiled_header,svx,svx/inc/pch/precompiled_svx)
 $(eval $(call gb_Library_use_libraries,svx,\
     $(call gb_Helper_optional,AVMEDIA,avmedia) \
     basegfx \
-    sb \
     comphelper \
     cppuhelper \
     cppu \

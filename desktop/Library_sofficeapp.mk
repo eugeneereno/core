@@ -69,7 +69,6 @@ $(eval $(call gb_Library_use_libraries,sofficeapp,\
     $(if $(filter OPENCL,$(BUILD_TYPE)),opencl) \
     sal \
     salhelper \
-    sb \
     sfx \
     svl \
     svx \

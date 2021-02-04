@@ -36,7 +36,6 @@ $(eval $(call gb_CppunitTest_use_libraries,chart2_xshape, \
     sal \
     salhelper \
     sax \
-    sb \
     sc \
     sd \
     sfx \
@@ -67,7 +66,6 @@ $(eval $(call gb_CppunitTest_use_ure,chart2_xshape))
 $(eval $(call gb_CppunitTest_use_vcl,chart2_xshape))
 
 $(eval $(call gb_CppunitTest_use_components,chart2_xshape,\
-    basic/util/sb \
     animations/source/animcore/animcore \
     chart2/source/controller/chartcontroller \
     chart2/source/chartcore \

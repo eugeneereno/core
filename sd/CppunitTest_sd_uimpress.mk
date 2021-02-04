@@ -35,7 +35,6 @@ $(eval $(call gb_CppunitTest_use_libraries,sd_uimpress,\
     sal \
     sax \
     salhelper \
-    sb \
     sfx \
     sot \
     svl \

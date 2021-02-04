@@ -26,7 +26,6 @@
 #include <com/sun/star/frame/Desktop.hpp>
 #include <com/sun/star/lang/XServiceInfo.hpp>
 
-#include <basic/sbdef.hxx>
 #include <tools/svlibrary.h>
 #include <svtools/soerr.hxx>
 #include <unotools/configmgr.hxx>
@@ -195,10 +194,6 @@ void SfxApplication::Initialize_Impl()
 
     pImpl->m_pSoErrorHdl.reset(new SfxErrorHandler(
         RID_SO_ERROR_HANDLER, ErrCodeArea::So, ErrCodeArea::So, SvtResLocale()));
-#if HAVE_FEATURE_SCRIPTING
-    pImpl->m_pSbxErrorHdl.reset(new SfxErrorHandler(
-        RID_BASIC_START, ErrCodeArea::Sbx, ErrCodeArea::Sbx, BasResLocale()));
-#endif
 
     if (!utl::ConfigManager::IsFuzzing())
     {

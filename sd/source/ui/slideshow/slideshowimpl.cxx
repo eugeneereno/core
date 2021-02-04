@@ -1528,7 +1528,7 @@ void SlideshowImpl::click( const Reference< XShape >& xShape )
             // todo: is the limitation still given that only
             // Modulname+Macroname can be used here?
             OUString aExecMacro = aModulName + "." + aMacroName;
-            mpDocSh->GetBasic()->Call(aExecMacro);
+            // mpDocSh->GetBasic()->Call(aExecMacro);
         }
     }
     break;

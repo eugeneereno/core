@@ -37,7 +37,6 @@ $(eval $(call gb_CppunitTest_use_libraries,desktop_app, \
     $(if $(filter OPENCL,$(BUILD_TYPE)),opencl) \
     sal \
     salhelper \
-    sb \
     sfx \
     svl \
     svx \

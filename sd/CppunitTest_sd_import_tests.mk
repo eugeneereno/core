@@ -68,7 +68,6 @@ $(eval $(call gb_CppunitTest_use_vcl,sd_import_tests))
 
 $(eval $(call gb_CppunitTest_use_components,sd_import_tests,\
     animations/source/animcore/animcore \
-    basic/util/sb \
     chart2/source/chartcore \
     chart2/source/controller/chartcontroller \
     comphelper/util/comphelp \

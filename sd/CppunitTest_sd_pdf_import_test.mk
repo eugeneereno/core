@@ -46,7 +46,6 @@ $(eval $(call gb_CppunitTest_use_libraries,sd_pdf_import_test, \
     sal \
     salhelper \
     sax \
-    sb \
     sd \
     sfx \
     sot \

@@ -390,7 +390,6 @@ $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,ooo, \
 	pdffilter \
 	$(call gb_Helper_optional,SCRIPTING,protocolhandler) \
 	sax \
-	sb \
 	$(call gb_Helper_optional,DBCONNECTIVITY,sdbt) \
 	scn \
 	sd \

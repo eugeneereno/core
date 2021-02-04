@@ -15,7 +15,6 @@
 #include <com/sun/star/uno/XComponentContext.hpp>
 #include <com/sun/star/frame/DispatchHelper.hpp>
 
-#include <basic/basrdll.hxx>
 #include <cppunit/TestAssert.h>
 #include <comphelper/sequence.hxx>
 #include <comphelper/processfactory.hxx>
@@ -29,7 +28,6 @@ using namespace css;
 namespace unotest
 {
 MacrosTest::MacrosTest()
-    : mpDll(std::make_unique<BasicDLL>())
 {
 }
 

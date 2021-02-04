@@ -25,7 +25,6 @@ $(eval $(call gb_Library_use_libraries,basprov,\
 	cppu \
 	cppuhelper \
 	sal \
-	sb \
 	sfx \
 	svl \
 	tl \
@@ -38,7 +37,6 @@ $(eval $(call gb_Library_add_exception_objects,basprov,\
 	scripting/source/basprov/basmethnode \
 	scripting/source/basprov/basmodnode \
 	scripting/source/basprov/basprov \
-	scripting/source/basprov/basscript \
 ))
 
 # vim: set noet sw=4 ts=4:

@@ -102,7 +102,7 @@
 #include <sfx2/docfilt.hxx>
 #include <sfx2/dispatch.hxx>
 #include <sfx2/module.hxx>
-#include <basic/basmgr.hxx>
+
 #include <sfx2/event.hxx>
 #include <eventsupplier.hxx>
 #include <sfx2/sfxsids.hrc>
@@ -576,15 +576,6 @@ static Reference< script::XStarBasicAccess > implGetStarBasicAccess( SfxObjectSh
 {
     Reference< script::XStarBasicAccess > xRet;
 
-#if !HAVE_FEATURE_SCRIPTING
-    (void) pObjectShell;
-#else
-    if( pObjectShell )
-    {
-        BasicManager* pMgr = pObjectShell->GetBasicManager();
-        xRet = getStarBasicAccess( pMgr );
-    }
-#endif
     return xRet;
 }
 

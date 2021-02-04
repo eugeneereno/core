@@ -30,7 +30,6 @@ $(eval $(call gb_Library_use_libraries,dlgprov,\
 	cppuhelper \
 	sal \
 	i18nlangtag \
-	sb \
 	sfx \
 	tl \
 	ucbhelper \

@@ -44,12 +44,6 @@ void SfxApplication::Deinitialize()
     if (pImpl->bDowning)
         return;
 
-#if HAVE_FEATURE_SCRIPTING
-    StarBASIC::Stop();
-
-    SaveBasicAndDialogContainer();
-#endif
-
     pImpl->bDowning = true; // due to Timer from DecAliveCount and QueryExit
 
     pImpl->pTemplates.reset();
@@ -65,14 +59,6 @@ void SfxApplication::Deinitialize()
     pImpl->pAppDispat->Flush();
     pImpl->bDowning = true;
     pImpl->pAppDispat->DoDeactivate_Impl(true, nullptr);
-
-    // Release Controller and others
-    // then the remaining components should also disappear ( Beamer! )
-
-#if HAVE_FEATURE_SCRIPTING
-    BasicManagerRepository::resetApplicationBasicManager();
-    pImpl->pBasicManager->reset(nullptr); // this will also delete pBasMgr
-#endif
 
     DBG_ASSERT(pImpl->pViewFrame == nullptr, "active foreign ViewFrame");
 

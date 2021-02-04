@@ -85,7 +85,7 @@
 #include <vcl/errinf.hxx>
 #include <vcl/svapp.hxx>
 #include <vcl/weld.hxx>
-#include <basic/modsizeexceeded.hxx>
+
 #include <officecfg/Office/Common.hxx>
 #include <osl/file.hxx>
 #include <comphelper/scopeguard.hxx>
@@ -1034,8 +1034,6 @@ bool SfxObjectShell::DoSave()
                         GetMedium()->GetStorage()->copyElementTo( aBasicStorageName, xTmpStorage, aBasicStorageName );
                     if ( GetMedium()->GetStorage()->hasByName( aDialogsStorageName ) )
                         GetMedium()->GetStorage()->copyElementTo( aDialogsStorageName, xTmpStorage, aDialogsStorageName );
-
-                    GetBasicManager();
 
                     // disconnect from the current storage
                     pImpl->aBasicManager.setStorage( xTmpStorage );
@@ -3145,16 +3143,7 @@ bool SfxObjectShell::SaveAsOwnFormat( SfxMedium& rMedium )
             && nVersion > SOFFICE_FILEFORMAT_60;
 
         SetupStorage( xStorage, nVersion, bTemplate );
-#if HAVE_FEATURE_SCRIPTING
-        if ( HasBasic() )
-        {
-            // Initialize Basic
-            GetBasicManager();
 
-            // Save dialog/script container
-            pImpl->aBasicManager.storeLibrariesToStorage( xStorage );
-        }
-#endif
         return SaveAs( rMedium );
     }
     else return false;
@@ -3691,17 +3680,12 @@ bool SfxObjectShell::QuerySaveSizeExceededModules_Impl( const uno::Reference< ta
     if ( !HasBasic() )
         return true;
 
-    if ( !pImpl->aBasicManager.isValid() )
-        GetBasicManager();
     std::vector< OUString > sModules;
     if ( xHandler.is() )
     {
         if( pImpl->aBasicManager.LegacyPsswdBinaryLimitExceeded( sModules ) )
         {
-            ModuleSizeExceeded* pReq =  new ModuleSizeExceeded( sModules );
-            uno::Reference< task::XInteractionRequest > xReq( pReq );
-            xHandler->handle( xReq );
-            return pReq->isApprove();
+            return true;
         }
     }
 #endif

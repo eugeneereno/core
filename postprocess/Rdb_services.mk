@@ -14,7 +14,6 @@ $(eval $(call gb_Rdb_Rdb_install,services))
 #
 $(eval $(call gb_Rdb_add_components,services,\
 	$(call gb_Helper_optional,AVMEDIA,avmedia/util/avmedia) \
-	$(call gb_Helper_optional,SCRIPTING,basic/util/sb) \
 	canvas/source/factory/canvasfactory \
 	canvas/source/simplecanvas/simplecanvas \
 	canvas/source/vcl/vclcanvas \

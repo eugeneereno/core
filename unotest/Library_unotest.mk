@@ -21,7 +21,6 @@ $(eval $(call gb_Library_use_libraries,unotest,\
 	cppu \
 	cppuhelper \
 	sal \
-	sb \
 ))
 
 $(eval $(call gb_Library_use_externals,unotest,\

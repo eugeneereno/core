@@ -22,9 +22,6 @@
 #include <macroloader.hxx>
 
 #include <com/sun/star/frame/DispatchResultState.hpp>
-#include <basic/basmgr.hxx>
-#include <basic/sbuno.hxx>
-#include <basic/sberrors.hxx>
 #include <cppuhelper/supportsservice.hxx>
 #include <cppuhelper/weak.hxx>
 #include <cppuhelper/weakref.hxx>
@@ -189,11 +186,11 @@ void SAL_CALL SfxMacroLoader::removeStatusListener(
 
 ErrCode SfxMacroLoader::loadMacro( const OUString& rURL, css::uno::Any& rRetval, SfxObjectShell* pSh )
 {
+    (void) rRetval;
 #if !HAVE_FEATURE_SCRIPTING
     (void) rURL;
-    (void) rRetval;
     (void) pSh;
-    return ERRCODE_BASIC_PROC_UNDEFINED;
+    return ERRCODE_NONE;
 #else
     SfxObjectShell* pCurrent = pSh;
     if ( !pCurrent )
@@ -206,8 +203,8 @@ ErrCode SfxMacroLoader::loadMacro( const OUString& rURL, css::uno::Any& rRetval,
     const OUString& aMacro( rURL );
     sal_Int32 nThirdSlashPos = aMacro.indexOf( '/', 8 );
     sal_Int32 nArgsPos = aMacro.indexOf( '(' );
-    BasicManager *pAppMgr = SfxApplication::GetBasicManager();
-    BasicManager *pBasMgr = nullptr;
+    void *pAppMgr = nullptr;
+    void *pBasMgr = nullptr;
     ErrCode nErr = ERRCODE_NONE;
 
     // should a macro function be executed ( no direct API call)?
@@ -222,8 +219,6 @@ ErrCode SfxMacroLoader::loadMacro( const OUString& rURL, css::uno::Any& rRetval,
         {
             // current/actual document
             pDoc = pCurrent;
-            if (pDoc)
-                pBasMgr = pDoc->GetBasicManager();
         }
         else
         {
@@ -234,81 +229,11 @@ ErrCode SfxMacroLoader::loadMacro( const OUString& rURL, css::uno::Any& rRetval,
                 if ( aBasMgrName == pObjSh->GetTitle(SFX_TITLE_APINAME) )
                 {
                     pDoc = pObjSh;
-                    pBasMgr = pDoc->GetBasicManager();
+                    // pBasMgr = pDoc->GetBasicManager();
                 }
         }
 
-        if ( pBasMgr )
-        {
-            const bool bIsAppBasic = ( pBasMgr == pAppMgr );
-            const bool bIsDocBasic = ( pBasMgr != pAppMgr );
-
-            if ( pDoc )
-            {
-                // security check for macros from document basic if an SFX doc is given
-                if ( !pDoc->AdjustMacroMode() )
-                    // check forbids execution
-                    return ERRCODE_IO_ACCESSDENIED;
-            }
-
-            // find BASIC method
-            OUString aQualifiedMethod( INetURLObject::decode(aMacro.copy( nThirdSlashPos+1 ), INetURLObject::DecodeMechanism::WithCharset) );
-            OUString aArgs;
-            if ( -1 != nArgsPos )
-            {
-                // remove arguments from macro name
-                aArgs = aQualifiedMethod.copy( nArgsPos - nThirdSlashPos - 1 );
-                aQualifiedMethod = aQualifiedMethod.copy( 0, nArgsPos - nThirdSlashPos - 1 );
-            }
-
-            if ( pBasMgr->HasMacro( aQualifiedMethod ) )
-            {
-                Any aOldThisComponent;
-                const bool bSetDocMacroMode = ( pDoc != nullptr ) && bIsDocBasic;
-                const bool bSetGlobalThisComponent = ( pDoc != nullptr ) && bIsAppBasic;
-                if ( bSetDocMacroMode )
-                {
-                    // mark document: it executes an own macro, so it's in a modal mode
-                    pDoc->SetMacroMode_Impl();
-                }
-
-                if ( bSetGlobalThisComponent )
-                {
-                    // document is executed via AppBASIC, adjust ThisComponent variable
-                    aOldThisComponent = pAppMgr->SetGlobalUNOConstant( "ThisComponent", makeAny( pDoc->GetModel() ) );
-                }
-
-                // just to let the shell be alive
-                SfxObjectShellRef xKeepDocAlive = pDoc;
-
-                {
-                    // attempt to protect the document against the script tampering with its Undo Context
-                    std::unique_ptr< ::framework::DocumentUndoGuard > pUndoGuard;
-                    if ( bIsDocBasic )
-                        pUndoGuard.reset( new ::framework::DocumentUndoGuard( pDoc->GetModel() ) );
-
-                    // execute the method
-                    SbxVariableRef retValRef = new SbxVariable;
-                    nErr = pBasMgr->ExecuteMacro( aQualifiedMethod, aArgs, retValRef.get() );
-                    if ( nErr == ERRCODE_NONE )
-                        rRetval = sbxToUnoValue( retValRef.get() );
-                }
-
-                if ( bSetGlobalThisComponent )
-                {
-                    pAppMgr->SetGlobalUNOConstant( "ThisComponent", aOldThisComponent );
-                }
-
-                if ( bSetDocMacroMode )
-                {
-                    // remove flag for modal mode
-                    pDoc->SetMacroMode_Impl( false );
-                }
-            }
-            else
-                nErr = ERRCODE_BASIC_PROC_UNDEFINED;
-        }
-        else
+        if ( !pBasMgr )
             nErr = ERRCODE_IO_NOTEXISTS;
     }
     else
@@ -318,11 +243,9 @@ ErrCode SfxMacroLoader::loadMacro( const OUString& rURL, css::uno::Any& rRetval,
         aCall.append('[').append(INetURLObject::decode(aMacro.copy(6),
             INetURLObject::DecodeMechanism::WithCharset));
         aCall.append(']');
-        pAppMgr->GetLib(0)->Execute(aCall.makeStringAndClear());
-        nErr = SbxBase::GetError();
+        nErr = ERRCODE_IO_NOTEXISTS;
     }
 
-    SbxBase::ResetError();
     return nErr;
 #endif
 }

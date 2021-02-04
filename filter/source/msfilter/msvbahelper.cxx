@@ -20,10 +20,7 @@
 #include <config_features.h>
 
 #include <filter/msfilter/msvbahelper.hxx>
-#include <basic/sbstar.hxx>
-#include <basic/basmgr.hxx>
-#include <basic/sbmod.hxx>
-#include <basic/sbmeth.hxx>
+
 #include <com/sun/star/beans/XPropertySet.hpp>
 #include <com/sun/star/document/XDocumentPropertiesSupplier.hpp>
 #include <com/sun/star/document/XDocumentProperties.hpp>
@@ -180,44 +177,6 @@ static bool hasMacro( SfxObjectShell const * pShell, const OUString& sLibrary, O
     (void) sLibrary;
     (void) sMod;
     (void) sMacro;
-#else
-    if ( !sLibrary.isEmpty() && !sMacro.isEmpty() )
-    {
-        BasicManager* pBasicMgr = pShell-> GetBasicManager();
-        if ( pBasicMgr )
-        {
-            StarBASIC* pBasic = pBasicMgr->GetLib( sLibrary );
-            if ( !pBasic )
-            {
-                sal_uInt16 nId = pBasicMgr->GetLibId( sLibrary );
-                pBasicMgr->LoadLib( nId );
-                pBasic = pBasicMgr->GetLib( sLibrary );
-            }
-            if ( pBasic )
-            {
-                if ( !sMod.isEmpty() ) // we wish to find the macro is a specific module
-                {
-                    SbModule* pModule = pBasic->FindModule( sMod );
-                    if ( pModule && pModule->FindMethod( sMacro, SbxClassType::Method ))
-                    {
-                        bFound = true;
-                    }
-                }
-                else if( SbMethod* pMethod = dynamic_cast< SbMethod* >( pBasic->Find( sMacro, SbxClassType::Method ) ) )
-                {
-                    if( SbModule* pModule = pMethod->GetModule() )
-                    {
-                        // when searching for a macro without module name, do not search in class/document/form modules
-                        if( pModule->GetModuleType() == script::ModuleType::NORMAL )
-                        {
-                            sMod = pModule->GetName();
-                            bFound = true;
-                        }
-                    }
-                }
-            }
-        }
-    }
 #endif
     return bFound;
 }
@@ -227,12 +186,7 @@ static bool hasMacro( SfxObjectShell const * pShell, const OUString& sLibrary, O
 OUString getDefaultProjectName( SfxObjectShell const * pShell )
 {
     OUString aPrjName;
-    if( BasicManager* pBasicMgr = pShell ? pShell->GetBasicManager() : nullptr )
-    {
-        aPrjName = pBasicMgr->GetName();
-        if( aPrjName.isEmpty() )
-            aPrjName = "Standard";
-    }
+
     return aPrjName;
 }
 

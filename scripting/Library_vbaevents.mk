@@ -31,7 +31,6 @@ $(eval $(call gb_Library_use_libraries,vbaevents,\
 	msfilter \
 	sal \
 	sfx \
-	sb \
 	tl \
 ))
 
