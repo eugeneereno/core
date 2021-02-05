@@ -630,32 +630,6 @@ host_cpu_for_clang="$host_cpu"
 
 case "$host_os" in
 
-solaris*)
-    build_gstreamer_1_0=yes
-    test_freetype=yes
-    build_skia=yes
-    _os=SunOS
-
-    dnl ===========================================================
-    dnl Check whether we're using Solaris 10 - SPARC or Intel.
-    dnl ===========================================================
-    AC_MSG_CHECKING([the Solaris operating system release])
-    _os_release=`echo $host_os | $SED -e s/solaris2\.//`
-    if test "$_os_release" -lt "10"; then
-        AC_MSG_ERROR([use Solaris >= 10 to build LibreOffice])
-    else
-        AC_MSG_RESULT([ok ($_os_release)])
-    fi
-
-    dnl Check whether we're using a SPARC or i386 processor
-    AC_MSG_CHECKING([the processor type])
-    if test "$host_cpu" = "sparc" -o "$host_cpu" = "i386"; then
-        AC_MSG_RESULT([ok ($host_cpu)])
-    else
-        AC_MSG_ERROR([only SPARC and i386 processors are supported])
-    fi
-    ;;
-
 linux-gnu*|k*bsd*-gnu*)
     build_gstreamer_1_0=yes
     test_kf5=yes
@@ -673,12 +647,6 @@ linux-gnu*|k*bsd*-gnu*)
     fi
     _os=Linux
     ;;
-
-gnu)
-    test_randr=no
-    test_xrender=no
-    _os=GNU
-     ;;
 
 cygwin*|wsl*)
 
@@ -751,152 +719,11 @@ darwin*|macos*) # macOS
     esac
 ;;
 
-ios*) # iOS
-    test_randr=no
-    test_xrender=no
-    test_freetype=no
-    test_fontconfig=no
-    test_dbus=no
-    if test -n "$LODE_HOME" ; then
-        mac_sanitize_path
-        AC_MSG_NOTICE([sanitized the PATH to $PATH])
-    fi
-    enable_gpgmepp=no
-    _os=iOS
-    test_cups=no
-    enable_mpl_subset=yes
-    enable_lotuswordpro=no
-    enable_coinmp=no
-    enable_lpsolve=no
-    enable_mariadb_sdbc=no
-    enable_postgresql_sdbc=no
-    enable_extension_integration=no
-    enable_report_builder=no
-    with_ppds=no
-    if test "$enable_ios_simulator" = "yes"; then
-        host=x86_64-apple-darwin
-    fi
-    # See comment above the case "$host_os"
-    LINKFLAGSSHL="-dynamiclib -single_module"
-
-    # -fPIC is default
-    PICSWITCH=""
-
-    DLLPOST=".dylib"
-
-    # -undefined error is the default
-    LINKFLAGSNOUNDEFS=""
-
-    # HOST_PLATFORM is used for external projects and their configury typically doesn't like the "ios"
-    # part, so use aarch64-apple-darwin for now.
-    HOST_PLATFORM=aarch64-apple-darwin
-
-    # Apple's Clang uses "arm64"
-    host_cpu_for_clang=arm64
-;;
-
-freebsd*)
-    build_gstreamer_1_0=yes
-    test_kf5=yes
-    test_gtk3_kde5=yes
-    test_freetype=yes
-    build_skia=yes
-    AC_MSG_CHECKING([the FreeBSD operating system release])
-    if test -n "$with_os_version"; then
-        OSVERSION="$with_os_version"
-    else
-        OSVERSION=`/sbin/sysctl -n kern.osreldate`
-    fi
-    AC_MSG_RESULT([found OSVERSION=$OSVERSION])
-    AC_MSG_CHECKING([which thread library to use])
-    if test "$OSVERSION" -lt "500016"; then
-        PTHREAD_CFLAGS="-D_THREAD_SAFE"
-        PTHREAD_LIBS="-pthread"
-    elif test "$OSVERSION" -lt "502102"; then
-        PTHREAD_CFLAGS="-D_THREAD_SAFE"
-        PTHREAD_LIBS="-lc_r"
-    else
-        PTHREAD_CFLAGS=""
-        PTHREAD_LIBS="-pthread"
-    fi
-    AC_MSG_RESULT([$PTHREAD_LIBS])
-    _os=FreeBSD
-    ;;
-
-*netbsd*)
-    build_gstreamer_1_0=yes
-    test_kf5=yes
-    test_gtk3_kde5=yes
-    test_freetype=yes
-    build_skia=yes
-    PTHREAD_LIBS="-pthread -lpthread"
-    _os=NetBSD
-    ;;
-
 aix*)
     test_randr=no
     test_freetype=yes
     PTHREAD_LIBS=-pthread
     _os=AIX
-    ;;
-
-openbsd*)
-    test_freetype=yes
-    PTHREAD_CFLAGS="-D_THREAD_SAFE"
-    PTHREAD_LIBS="-pthread"
-    _os=OpenBSD
-    ;;
-
-dragonfly*)
-    build_gstreamer_1_0=yes
-    test_kf5=yes
-    test_gtk3_kde5=yes
-    test_freetype=yes
-    build_skia=yes
-    PTHREAD_LIBS="-pthread"
-    _os=DragonFly
-    ;;
-
-linux-android*)
-    build_gstreamer_1_0=no
-    enable_lotuswordpro=no
-    enable_mpl_subset=yes
-    enable_coinmp=yes
-    enable_lpsolve=no
-    enable_mariadb_sdbc=no
-    enable_report_builder=no
-    enable_odk=no
-    enable_postgresql_sdbc=no
-    enable_python=no
-    test_cups=no
-    test_dbus=no
-    test_fontconfig=no
-    test_freetype=no
-    test_kf5=no
-    test_qt5=no
-    test_gtk3_kde5=no
-    test_randr=no
-    test_xrender=no
-    _os=Android
-
-    AC_DEFINE(HAVE_FT_FACE_GETCHARVARIANTINDEX)
-    BUILD_TYPE="$BUILD_TYPE CAIRO FONTCONFIG FREETYPE"
-    ;;
-
-haiku*)
-    test_cups=no
-    test_dbus=no
-    test_randr=no
-    test_xrender=no
-    test_freetype=yes
-    enable_odk=no
-    enable_gstreamer_1_0=no
-    enable_coinmp=no
-    enable_pdfium=no
-    enable_sdremote=no
-    enable_postgresql_sdbc=no
-    enable_firebird_sdbc=no
-    _os=Haiku
     ;;
 
 *)
@@ -905,48 +732,6 @@ haiku*)
 esac
 
 AC_SUBST(HOST_PLATFORM)
-
-if test "$_os" = "Android" ; then
-    # Verify that the NDK and SDK options are proper
-    if test -z "$with_android_ndk"; then
-        AC_MSG_ERROR([the --with-android-ndk option is mandatory, unless it is available at external/android-ndk/.])
-    elif test ! -f "$ANDROID_NDK_HOME/meta/abis.json"; then
-        AC_MSG_ERROR([the --with-android-ndk option does not point to an Android NDK])
-    fi
-
-    if test -z "$ANDROID_SDK_HOME"; then
-        AC_MSG_ERROR([the --with-android-sdk option is mandatory, unless it is available at external/android-sdk-linux/.])
-    elif test ! -d "$ANDROID_SDK_HOME/platforms"; then
-        AC_MSG_ERROR([the --with-android-sdk option does not point to an Android SDK])
-    fi
-
-    BUILD_TOOLS_VERSION=`$SED -n -e 's/.*buildToolsVersion "\(.*\)"/\1/p' $SRC_ROOT/android/source/build.gradle`
-    if test ! -d "$ANDROID_SDK_HOME/build-tools/$BUILD_TOOLS_VERSION"; then
-        AC_MSG_WARN([android build-tools $BUILD_TOOLS_VERSION not found - install with
-                         $ANDROID_SDK_HOME/tools/android update sdk -u --all --filter build-tools-$BUILD_TOOLS_VERSION
-                    or adjust change $SRC_ROOT/android/source/build.gradle accordingly])
-        add_warning "android build-tools $BUILD_TOOLS_VERSION not found - install with"
-        add_warning "    $ANDROID_SDK_HOME/tools/android update sdk -u --all --filter build-tools-$BUILD_TOOLS_VERSION"
-        add_warning "or adjust $SRC_ROOT/android/source/build.gradle accordingly"
-    fi
-    if test ! -f "$ANDROID_SDK_HOME/extras/android/m2repository/source.properties"; then
-        AC_MSG_WARN([android support repository not found - install with
-                         $ANDROID_SDK_HOME/tools/android update sdk -u --filter extra-android-m2repository
-                     to allow the build to download the specified version of the android support libraries])
-        add_warning "android support repository not found - install with"
-        add_warning "    $ANDROID_SDK_HOME/tools/android update sdk -u --filter extra-android-m2repository"
-        add_warning "to allow the build to download the specified version of the android support libraries"
-    fi
-fi
-
-if test "$_os" = "AIX"; then
-    AC_PATH_PROG(GAWK, gawk)
-    if test -z "$GAWK"; then
-        AC_MSG_ERROR([gawk not found in \$PATH])
-    fi
-fi
-
-AC_SUBST(SDKDIRNAME)
 
 AC_SUBST(PTHREAD_CFLAGS)
 AC_SUBST(PTHREAD_LIBS)
@@ -1048,11 +833,6 @@ if test $_os != "WINNT"; then
     LIBS="$save_LIBS"
 fi
 AC_SUBST(DLOPEN_LIBS)
-
-AC_ARG_ENABLE(ios-simulator,
-    AS_HELP_STRING([--enable-ios-simulator],
-        [build for iOS simulator])
-)
 
 ###############################################################################
 # Extensions switches --enable/--disable
