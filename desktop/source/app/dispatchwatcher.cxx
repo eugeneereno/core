@@ -386,7 +386,7 @@ bool DispatchWatcher::executeDispatchRequests( const std::vector<DispatchRequest
         {
             // Attention: URL must be parsed full. Otherwise some detections on it will fail!
             // It doesn't matter, if parser isn't available. Because; We try loading of URL then ...
-            URL             aURL ;
+            /* URL             aURL ;
             aURL.Complete = aName;
 
             Reference < XDispatch >         xDispatcher ;
@@ -410,12 +410,12 @@ bool DispatchWatcher::executeDispatchRequests( const std::vector<DispatchRequest
                 // Use local vector to store dispatcher because we have to fill our request container before
                 // we can dispatch. Otherwise it would be possible that statusChanged is called before we dispatched all requests!!
                 aDispatches.emplace_back( aURL, xDispatcher );
-            }
+            } */
         }
         else if ( aName.startsWith( "service:" ) )
         {
             // TODO: the dispatch has to be done for loadComponentFromURL as well.
-            URL             aURL ;
+            /* URL             aURL ;
             aURL.Complete = aName;
 
             Reference < XDispatch >         xDispatcher ;
@@ -448,7 +448,7 @@ bool DispatchWatcher::executeDispatchRequests( const std::vector<DispatchRequest
                         "desktop.app",
                         "Desktop::OpenDefault() ignoring Exception while calling XNotifyingDispatch");
                 }
-            }
+            } */
         }
         else
         {
