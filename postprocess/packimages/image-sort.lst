@@ -55,32 +55,8 @@ modules/sdraw/menubar/menubar.xml
 # complete list of other toolbars / menus
 # FIXME: should auto-generate this.
 #
-modules/BasicIDE/toolbar/fullscreenbar.xml
-modules/BasicIDE/toolbar/insertcontrolsbar.xml
-modules/BasicIDE/toolbar/formcontrolsbar.xml
-modules/BasicIDE/toolbar/macrobar.xml
-modules/BasicIDE/toolbar/standardbar.xml
-modules/dbapp/toolbar/formobjectbar.xml
-modules/dbapp/toolbar/queryobjectbar.xml
-modules/dbapp/toolbar/reportobjectbar.xml
-modules/dbapp/toolbar/tableobjectbar.xml
-modules/dbapp/toolbar/toolbar.xml
 #modules/dbbrowser/toolbar/browserobjectbar.xml
 #modules/dbbrowser/toolbar/copyobjectbar.xml
-modules/dbbrowser/toolbar/toolbar.xml
-modules/dbquery/toolbar/designobjectbar.xml
-modules/dbquery/toolbar/sqlobjectbar.xml
-modules/dbquery/toolbar/toolbar.xml
-modules/dbrelation/toolbar/toolbar.xml
-modules/dbtable/toolbar/toolbar.xml
-modules/schart/toolbar/arrowshapes.xml
-modules/schart/toolbar/basicshapes.xml
-modules/schart/toolbar/calloutshapes.xml
-modules/schart/toolbar/flowchartshapes.xml
-modules/schart/toolbar/standardbar.xml
-modules/schart/toolbar/starshapes.xml
-modules/schart/toolbar/symbolshapes.xml
-modules/schart/toolbar/toolbar.xml
 modules/sdraw/toolbar/3dobjectsbar.xml
 modules/sdraw/toolbar/alignmentbar.xml
 modules/sdraw/toolbar/arrowsbar.xml
