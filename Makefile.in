@@ -192,7 +192,7 @@ ifeq ($(OS),ANDROID)
 endif
 endif
 
-include $(SRCDIR)/compilerplugins/Makefile.mk
+# include $(SRCDIR)/compilerplugins/Makefile.mk
 
 #
 # Distclean
@@ -269,7 +269,7 @@ endif
 #
 # Bootstrap
 #
-bootstrap: check-if-root compilerplugins
+# bootstrap: check-if-root compilerplugins
 
 #
 # Build

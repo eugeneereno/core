@@ -35,12 +35,12 @@ endif
 endif
 endif
 
-ifneq ($(COMPILER_PLUGINS),)
-ifeq ($(COMPILER_EXTERNAL_TOOL)$(COMPILER_PLUGIN_TOOL),)
-$(eval $(call gb_Module_add_check_targets,solenv, \
-    CompilerTest_compilerplugins_clang \
-))
-endif
-endif
+# ifneq ($(COMPILER_PLUGINS),)
+# ifeq ($(COMPILER_EXTERNAL_TOOL)$(COMPILER_PLUGIN_TOOL),)
+# $(eval $(call gb_Module_add_check_targets,solenv, \
+#     CompilerTest_compilerplugins_clang \
+# ))
+# endif
+# endif
 
 # vim: set shiftwidth=4 tabstop=4 noexpandtab:
