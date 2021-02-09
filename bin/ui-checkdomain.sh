@@ -34,7 +34,6 @@ modules+=(  \
             [sw]=sw \
             [uui]=uui \
             [vcl]=vcl \
-            [writerperfect]=wpt \
             [xmlsecurity]=xsc \
 )
 
