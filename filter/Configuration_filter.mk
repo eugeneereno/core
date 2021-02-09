@@ -343,7 +343,6 @@ $(eval $(call filter_Configuration_add_types,fcfg_langpack,fcfg_writer_types.xcu
 	writer_MacWrite \
 	writer_Mariner_Write \
 	writer_WriteNow \
-	writer_AbiWord_Document \
 	writer_T602_Document \
 	writer_LotusWordPro_Document \
 	generic_Text \
@@ -391,7 +390,6 @@ $(eval $(call filter_Configuration_add_filters,fcfg_langpack,fcfg_writer_filters
 	MacWrite \
 	Mariner_Write \
 	WriteNow \
-	AbiWord \
 	T602Document \
 	LotusWordPro \
 	Text \

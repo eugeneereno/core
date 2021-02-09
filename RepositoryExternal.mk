@@ -1962,39 +1962,6 @@ endif # MSC
 endif # SYSTEM_REVENGE
 
 
-ifneq ($(SYSTEM_ABW),)
-
-define gb_LinkTarget__use_abw
-$(call gb_LinkTarget_set_include,$(1),\
-	$$(INCLUDE) \
-    $(ABW_CFLAGS) \
-)
-$(call gb_LinkTarget_add_libs,$(1),$(ABW_LIBS))
-
-endef
-gb_ExternalProject__use_abw :=
-
-else # !SYSTEM_ABW
-
-define gb_LinkTarget__use_abw
-$(call gb_LinkTarget_set_include,$(1),\
-	-I$(call gb_UnpackedTarball_get_dir,libabw)/inc \
-	$$(INCLUDE) \
-)
-$(call gb_LinkTarget_add_libs,$(1),\
-	$(call gb_UnpackedTarball_get_dir,libabw)/src/lib/.libs/libabw-0.1$(gb_StaticLibrary_PLAINEXT) \
-)
-$(call gb_LinkTarget_use_external_project,$(1),libabw)
-
-endef
-define gb_ExternalProject__use_abw
-$(call gb_ExternalProject_use_external_project,$(1),libabw)
-
-endef
-
-endif # SYSTEM_ABW
-
-
 ifneq ($(SYSTEM_MSPUB),)
 
 define gb_LinkTarget__use_mspub

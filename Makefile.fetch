@@ -99,7 +99,6 @@ download: $(WORKDIR)/download
 $(WORKDIR)/download: $(BUILDDIR)/config_$(gb_Side).mk $(SRCDIR)/download.lst $(SRCDIR)/Makefile.fetch
 	-@mkdir -p $(TARFILE_LOCATION)/tmp
 	$(foreach item, \
-		$(call fetch_Optional,ABW,ABW_TARBALL) \
 		$(call fetch_Optional,APACHE_COMMONS,APACHE_COMMONS_LOGGING_TARBALL) \
 		$(call fetch_Optional,APR,APR_TARBALL) \
 		$(call fetch_Optional,APR,APR_UTIL_TARBALL) \
