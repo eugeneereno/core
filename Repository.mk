@@ -700,22 +700,6 @@ $(eval $(call gb_Helper_register_jars_for_install,URE,ure, \
 	unoloader \
 ))
 
-$(eval $(call gb_Helper_register_jars_for_install,OOO,ooo, \
-	ScriptFramework \
-	ScriptProviderForJava \
-	XMergeBridge \
-	commonwizards \
-	form \
-	$(if $(filter-out MACOSX,$(OS)),officebean) \
-	query \
-	report \
-	sdbc_hsqldb \
-	smoketest \
-	table \
-	unoil \
-	xmerge \
-))
-
 $(eval $(call gb_Helper_register_jars_for_install,OOO,reportbuilder, \
 	reportbuilder \
 	reportbuilderwizard \
