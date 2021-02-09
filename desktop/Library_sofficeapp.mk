@@ -150,31 +150,4 @@ $(eval $(call gb_Library_add_libs,sofficeapp,\
 endif
 endif
 
-# LibreOfficeKit bits
-ifneq ($(filter $(OS),ANDROID iOS MACOSX WNT),)
-$(eval $(call gb_Library_add_exception_objects,sofficeapp,\
-	desktop/source/lib/init \
-	desktop/source/lib/lokinteractionhandler \
-	$(if $(filter-out $(OS),IOS), \
-		desktop/source/lib/lokclipboard) \
-	$(if $(filter $(OS),ANDROID), \
-		desktop/source/lib/lokandroid) \
-))
-else
-ifeq ($(USING_X11),TRUE)
-$(eval $(call gb_Library_add_exception_objects,sofficeapp,\
-	desktop/source/lib/init \
-	desktop/source/lib/lokinteractionhandler \
-	desktop/source/lib/lokclipboard \
-))
-endif
-ifeq ($(DISABLE_GUI),TRUE)
-$(eval $(call gb_Library_add_exception_objects,sofficeapp,\
-    desktop/source/lib/init \
-    desktop/source/lib/lokinteractionhandler \
-    desktop/source/lib/lokclipboard \
-))
-endif
-endif
-
 # vim: set ts=4 sw=4 et:
