@@ -269,7 +269,6 @@ $(eval $(call gb_Rdb_add_components,services,\
 	extensions/source/logging/log \
 	extensions/source/scanner/scn \
 	extensions/source/update/feed/updatefeed \
-	xmlhelp/util/ucpchelp1 \
 	$(if $(filter-out WNT,$(OS)),\
 		shell/source/cmdmail/cmdmail \
 	) \

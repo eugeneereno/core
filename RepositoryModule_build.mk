@@ -88,7 +88,6 @@ $(eval $(call gb_Module_add_moduledirs,cross_toolset,\
 	) \
 	$(call gb_Helper_optional_for_host,DESKTOP, \
 		helpcompiler \
-		xmlhelp \
 	) \
 	$(call gb_Helper_optional,QADEVOOO,qadevOOo) \
 ))

@@ -138,7 +138,6 @@ $(eval $(call gb_Module_add_moduledirs,libreoffice,\
 	winaccessibility \
 	wizards \
 	writerfilter \
-	$(call gb_Helper_optional,DESKTOP,xmlhelp) \
 	xmloff \
 	xmlreader \
 	xmlscript \
