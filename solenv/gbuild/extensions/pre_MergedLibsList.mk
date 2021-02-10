@@ -95,6 +95,7 @@ MERGE_LIBRARY_LIST := \
 		updatecheckui \
         updchk \
 	) \
+	updatefeed \
 	utl \
 	uui \
 	vbaevents \

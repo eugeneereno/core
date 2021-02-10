@@ -71,6 +71,7 @@ $(packimages_DIR)/sourceimagelist.ilst : \
 		$(SRCDIR)/connectivity/inc/bitmaps.hlst \
 		$(SRCDIR)/cui/inc/bitmaps.hlst \
 		$(SRCDIR)/desktop/inc/bitmaps.hlst \
+		$(SRCDIR)/extensions/inc/bitmaps.hlst \
 		$(SRCDIR)/formula/inc/bitmaps.hlst \
 		$(SRCDIR)/fpicker/inc/bitmaps.hlst \
 		$(SRCDIR)/framework/inc/bitmaps.hlst \

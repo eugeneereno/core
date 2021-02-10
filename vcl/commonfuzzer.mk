@@ -46,6 +46,7 @@ fuzzer_core_libraries = \
     basctl \
     avmedia \
     basegfx \
+    bib \
     canvastools \
     configmgr \
     cppcanvas \
