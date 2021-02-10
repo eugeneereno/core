@@ -42,8 +42,6 @@ $(eval $(call gb_Library_use_libraries,cui,\
     $(if $(ENABLE_JAVA), \
         jvmfwk) \
     lng \
-	$(call gb_Helper_optional,OPENCL, \
-		opencl) \
     sal \
     salhelper \
     sax \
@@ -65,8 +63,6 @@ $(eval $(call gb_Library_use_libraries,cui,\
 
 $(eval $(call gb_Library_use_externals,cui,\
 	boost_headers \
-	$(call gb_Helper_optional,OPENCL,\
-		clew) \
     icuuc \
     icu_headers \
     libxml2 \
@@ -178,8 +174,6 @@ $(eval $(call gb_Library_add_exception_objects,cui,\
     cui/source/options/optjava \
     cui/source/options/optjsearch \
     cui/source/options/optlingu \
-	$(call gb_Helper_optional,OPENCL, \
-	    cui/source/options/optopencl) \
     cui/source/options/optpath \
     cui/source/options/optsave \
     cui/source/options/optupdt \
