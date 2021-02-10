@@ -138,7 +138,6 @@ $(eval $(call gb_Rdb_add_components,services,\
 		sccomp/source/solver/lpsolvesolver \
 	) \
 	sccomp/source/solver/swarmsolver \
-	writerfilter/util/writerfilter \
 	$(if $(filter MACOSX,$(OS)), \
 		$(call gb_Helper_optional,AVMEDIA,avmedia/source/macavf/avmediaMacAVF) \
 		shell/source/backends/macbe/macbe1 \
