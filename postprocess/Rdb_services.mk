@@ -157,7 +157,6 @@ $(eval $(call gb_Rdb_add_components,services,\
 	) \
 	$(if $(filter WNT,$(OS)), \
 		embeddedobj/source/msole/emboleobj.windows \
-		embedserv/util/emser \
 		extensions/source/ole/oleautobridge \
 		winaccessibility/source/service/winaccessibility \
 	) \

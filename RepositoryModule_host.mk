@@ -41,7 +41,6 @@ $(eval $(call gb_Module_add_moduledirs,libreoffice,\
 	drawinglayer \
 	editeng \
 	embeddedobj \
-	embedserv \
 	eventattacher \
 	extensions \
 	external \
