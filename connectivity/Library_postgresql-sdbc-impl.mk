@@ -31,7 +31,6 @@ $(eval $(call gb_Library_use_libraries,postgresql-sdbc-impl,\
 ifeq ($(OS),WNT)
 $(eval $(call gb_Library_use_system_win32_libs,postgresql-sdbc-impl,\
 	shell32 \
-	wldap32 \
 ))
 
 ifeq ($(COM),MSC)
@@ -47,7 +46,6 @@ $(eval $(call gb_Library_use_externals,postgresql-sdbc-impl,\
 	postgresql \
 	$(if $(filter-out MSC,$(COM)), \
 		openssl \
-		$(if $(ENABLE_LDAP),openldap) \
 		nss3 \
 		plc4 \
 		ssl3 \

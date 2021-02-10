@@ -279,7 +279,6 @@ if (-d "$SdkDir") {
                     "io",
                     "java",
                     "lang",
-                    "ldap",
                     "linguistic2",
                     "loader",
                     "logging",
