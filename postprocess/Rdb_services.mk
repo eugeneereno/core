@@ -292,18 +292,6 @@ $(eval $(call gb_Rdb_add_components,services,\
 
 endif # DESKTOP
 
-ifeq ($(ENABLE_PDFIMPORT),TRUE)
-$(eval $(call gb_Rdb_add_components,services,\
-	sdext/source/pdfimport/pdfimport \
-))
-endif
-
-ifeq ($(ENABLE_REPORTBUILDER),TRUE)
-$(eval $(call gb_Rdb_add_components,services,\
-	reportbuilder/java/reportbuilder \
-))
-endif
-
 endif # $(gb_Side),host
 
 # vim: set noet sw=4 ts=4:

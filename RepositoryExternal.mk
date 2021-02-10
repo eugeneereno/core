@@ -3652,12 +3652,6 @@ gb_ExternalProject__use_commons-logging :=
 
 else # !SYSTEM_APACHE_COMMONS
 
-ifeq ($(ENABLE_JAVA),TRUE)
-$(eval $(call gb_Helper_register_jars_for_install,OOO,reportbuilder,\
-	commons-logging-$(COMMONS_LOGGING_VERSION) \
-))
-endif
-
 define gb_Jar__use_commons-logging
 $(call gb_Jar_use_external_project,$(1),apache_commons_logging)
 $(call gb_Jar_use_jar,$(1),commons-logging-$(COMMONS_LOGGING_VERSION))
@@ -3716,22 +3710,6 @@ $(call gb_Jar_use_system_jar,$(1),$(SAC_JAR))
 endef
 
 else # !SYSTEM_JFREEREPORT
-
-ifeq ($(ENABLE_JAVA),TRUE)
-$(eval $(call gb_Helper_register_jars_for_install,OOO,reportbuilder,\
-	flow-engine \
-	flute-1.1.6 \
-	libbase-1.1.6 \
-	libfonts-1.1.6 \
-	libformula-1.1.7 \
-	liblayout \
-	libloader-1.1.6 \
-	librepository-1.1.6 \
-	libserializer-1.1.6 \
-	libxml-1.1.7 \
-	sac \
-))
-endif
 
 define gb_Jar__use_flow-engine
 $(call gb_Jar_use_jar,$(1),flow-engine)

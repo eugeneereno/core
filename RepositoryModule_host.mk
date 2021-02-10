@@ -86,7 +86,6 @@ $(eval $(call gb_Module_add_moduledirs,libreoffice,\
 	readlicense_oo \
 	registry \
 	remotebridges \
-	reportbuilder \
 	ridljar \
 	sal \
 	salhelper \

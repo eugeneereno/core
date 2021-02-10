@@ -56,7 +56,6 @@ $(eval $(call gb_Module_add_targets,wizards,\
 	Jar_form \
 	Jar_query \
 	Jar_report \
-	Jar_reportbuilder \
 	Jar_table \
 ))
 endif
