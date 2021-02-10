@@ -79,7 +79,6 @@ $(eval $(call gb_Module_add_targets,desktop,\
     Executable_soffice_exe \
     Executable_soffice_com \
     Executable_soffice_safe \
-    Executable_sweb \
     Executable_unoinfo \
     Executable_unopkg \
     Executable_unopkg_com \
