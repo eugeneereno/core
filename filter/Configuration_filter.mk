@@ -391,7 +391,6 @@ $(eval $(call filter_Configuration_add_filters,fcfg_langpack,fcfg_writer_filters
 	Mariner_Write \
 	WriteNow \
 	T602Document \
-	LotusWordPro \
 	Text \
 	Text__encoded_ \
 	writer_MIZI_Hwp_97 \
