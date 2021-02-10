@@ -43,7 +43,6 @@ $(eval $(call gb_Module_add_moduledirs,libreoffice,\
 	embeddedobj \
 	embedserv \
 	eventattacher \
-	extensions \
 	external \
 	extras \
 	filter \

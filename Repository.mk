@@ -231,11 +231,6 @@ $(eval $(call gb_Helper_register_executables_for_install,UREBIN,ure,\
 	$(if $(filter DESKTOP,$(BUILD_TYPE)),uno) \
 ))
 
-$(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,base, \
-	abp \
-	dbp \
-))
-
 $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,calc, \
 	analysis \
 	$(call gb_Helper_optional,DBCONNECTIVITY,calc) \
@@ -317,7 +312,6 @@ $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,ooo, \
 		basprov \
 	) \
 	basegfx \
-	bib \
 	$(if $(ENABLE_CAIRO_CANVAS),cairocanvas) \
 	canvasfactory \
 	canvastools \
@@ -365,7 +359,6 @@ $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,ooo, \
 	$(if $(ENABLE_LDAP),ldapbe2) \
 	$(if $(filter WNT,$(OS)),WinUserInfoBe) \
 	localebe1 \
-	log \
 	lng \
 	$(if $(filter-out iOS,$(OS)),lnth) \
 	$(if $(filter $(OS),MACOSX),macbe1) \
@@ -384,12 +377,10 @@ $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,ooo, \
 	oox \
 	$(call gb_Helper_optional,OPENCL,opencl) \
 	passwordcontainer \
-	pcr \
 	pdffilter \
 	$(call gb_Helper_optional,SCRIPTING,protocolhandler) \
 	sax \
 	$(call gb_Helper_optional,DBCONNECTIVITY,sdbt) \
-	scn \
 	sd \
 	sdd \
 	sdfilt \
@@ -420,7 +411,6 @@ $(eval $(call gb_Helper_register_libraries_for_install,OOOLIBS,ooo, \
 	ucptdoc1 \
 	unordf \
 	unoxml \
-	updatefeed \
 	utl \
 	uui \
 	$(call gb_Helper_optional,SCRIPTING, \
@@ -1062,7 +1052,6 @@ $(eval $(call gb_Helper_register_mos,\
 	frm \
 	fwk \
 	oox \
-	pcr \
 	$(call gb_Helper_optional,SCRIPTING,sb) \
 	sca \
 	scc \

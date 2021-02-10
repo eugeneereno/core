@@ -19,7 +19,6 @@ modules+=(  \
             [dbaccess]=dba \
             [desktop]=dkt \
             [editeng]=editeng \
-            [extensions]=pcr \
             [filter]=flt \
             [formula]="for" \
             [fpicker]=fps \
