@@ -55,17 +55,9 @@ extern "C" int DESKTOP_DLLPUBLIC soffice_main()
 {
     sal_detail_initialize(sal::detail::InitializeSoffice, nullptr);
 
-#if HAVE_FEATURE_BREAKPAD
-    CrashReporter::installExceptionHandler();
-#endif
-
     bool bSuccess = fire_glxtest_process();
     SAL_WARN_IF(!bSuccess, "desktop.opengl", "problems with glxtest");
 
-#if defined ANDROID
-    try {
-        rtl::Bootstrap::setIniFilename("file:///assets/program/lofficerc");
-#endif
     tools::extendApplicationEnvironment();
 
     desktop::Desktop aDesktop;
@@ -96,13 +88,6 @@ extern "C" int DESKTOP_DLLPUBLIC soffice_main()
     }
 
     return SVMain();
-#if defined ANDROID
-    } catch (const css::uno::Exception &e) {
-        LOGI("Unhandled UNO exception: '%s'",
-             OUStringToOString(e.Message, RTL_TEXTENCODING_UTF8).getStr());
-        throw; // to get exception type printed
-    }
-#endif
 }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
